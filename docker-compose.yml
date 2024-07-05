@@ -1,0 +1,12 @@
+﻿services:
+  gertec.inventory.management:
+    image: gertec-inventory-management
+    build:
+      context: .
+      dockerfile: Gertec.Inventory.Management/Dockerfile
+
+  gertec.inventory.management.application.commandstack:
+    image: gertec.inventory.management.application.commandstack
+    build:
+      context: .
+      dockerfile: Gertec.Inventory.Management.Application.CommandStack/Dockerfile
