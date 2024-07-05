@@ -1,4 +1,4 @@
-namespace Gertec.Inventory.Management.Domain.Constants;
+namespace Gertec.Inventory.Management.Domain.Common;
 
 public static class InventoryConstants
 {

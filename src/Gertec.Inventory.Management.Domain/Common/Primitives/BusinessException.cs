@@ -1,4 +1,4 @@
-namespace Gertec.Inventory.Management.Domain.Primitives;
+namespace Gertec.Inventory.Management.Domain.Common.Primitives;
 
 public record BusinessException(string Code, string Description)
 {

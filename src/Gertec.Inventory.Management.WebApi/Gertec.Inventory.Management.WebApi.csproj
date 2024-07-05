@@ -29,4 +29,19 @@
       <ProjectReference Include="..\Gertec.Inventory.Management.Infrastructure\Gertec.Inventory.Management.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\ConfigurationMessages.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Api.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\ConfigurationMessages.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ConfigurationMessages.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

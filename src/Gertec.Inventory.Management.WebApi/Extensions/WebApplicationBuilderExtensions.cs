@@ -1,6 +1,7 @@
 using System.Reflection;
 using Dapper.FluentMap;
 using Dapper.FluentMap.Dommel;
+using Gertec.Inventory.Management.Domain.Common.Helpers;
 using Gertec.Inventory.Management.Infrastructure.Database.Mappers;
 
 namespace Gertec.Inventory.Management.WebApi.Extensions;
@@ -35,6 +36,8 @@ public static class WebApplicationBuilderExtensions
     private static void AddDatabaseAndRepositories(this WebApplicationBuilder builder)
     {
         var connectionString = builder.Configuration.GetConnectionString(DbConnectionstringConfigName);
+        
+        if(connectionString is null) throw ArgumentException(MessageHelper.Format(aPI))
         
         FluentMapper.Initialize(config =>
         {
