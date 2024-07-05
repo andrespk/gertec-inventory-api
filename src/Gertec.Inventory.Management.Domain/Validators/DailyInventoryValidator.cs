@@ -1,8 +1,8 @@
 using FluentValidation;
 using Gertec.Inventory.Management.Domain.Abstractions;
-using Gertec.Inventory.Management.Domain.Common;
-using Gertec.Inventory.Management.Domain.Common.Resources;
+using Gertec.Inventory.Management.Domain.Constants;
 using Gertec.Inventory.Management.Domain.Entities;
+using Gertec.Inventory.Management.Domain.Resources;
 
 namespace Gertec.Inventory.Management.Domain.Validators;
 
@@ -12,21 +12,21 @@ public class DailyInventoryValidator : FluentValidatorBase<DailyInventory>
 
     public DailyInventoryValidator()
     {
-        RuleFor(x => x.Item).NotEmpty().WithMessage(FormatMessage(BusinessMessages.InvalidItemPartNumber,
+        RuleFor(x => x.Item).NotEmpty().WithMessage(FormatMessage(InventoryMessages.InvalidItemPartNumber,
             InventoryConstants.ItemPartNumberDefaultLength));
 
         RuleFor(x => x.Date).NotEmpty().GreaterThanOrEqualTo(DateTime.UtcNow)
-            .WithMessage(BusinessMessages.InvalidDate);
+            .WithMessage(InventoryMessages.InvalidDate);
 
         RuleFor(x => x.Balance.Quantity).GreaterThanOrEqualTo(GreaterThanOrEqualsTo)
             .WithMessage(
-                FormatMessage(BusinessMessages.InvalidQuantity, InventoryConstants.ItemDefaultMinimumQuantity));
+                FormatMessage(InventoryMessages.InvalidQuantity, InventoryConstants.ItemDefaultMinimumQuantity));
 
         RuleFor(x => x.Balance.Amount).GreaterThanOrEqualTo(GreaterThanOrEqualsTo)
-            .WithMessage(FormatMessage(BusinessMessages.InvalidAmount, InventoryConstants.ItemDefaultMinimumAmount));
+            .WithMessage(FormatMessage(InventoryMessages.InvalidAmount, InventoryConstants.ItemDefaultMinimumAmount));
 
         RuleFor(x => x.Balance.UnitPrice).GreaterThanOrEqualTo(GreaterThanOrEqualsTo)
-            .WithMessage(FormatMessage(BusinessMessages.InvalidUnitPrice,
+            .WithMessage(FormatMessage(InventoryMessages.InvalidUnitPrice,
                 InventoryConstants.ItemDefaultMinimumUnitPrice));
     }
 }

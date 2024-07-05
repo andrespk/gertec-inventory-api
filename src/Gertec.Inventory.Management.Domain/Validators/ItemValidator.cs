@@ -1,8 +1,8 @@
 using FluentValidation;
 using Gertec.Inventory.Management.Domain.Abstractions;
-using Gertec.Inventory.Management.Domain.Common;
-using Gertec.Inventory.Management.Domain.Common.Resources;
+using Gertec.Inventory.Management.Domain.Constants;
 using Gertec.Inventory.Management.Domain.Entities;
+using Gertec.Inventory.Management.Domain.Resources;
 
 namespace Gertec.Inventory.Management.Domain.Validators;
 
@@ -11,15 +11,15 @@ public class ItemValidator : FluentValidatorBase<Item>
     public ItemValidator()
     {
         RuleFor(x => x.PartNumber).NotEmpty().Length(InventoryConstants.ItemPartNumberDefaultLength).WithMessage(
-            FormatMessage(BusinessMessages.InvalidItemPartNumber,
+            FormatMessage(InventoryMessages.InvalidItemPartNumber,
                 InventoryConstants.ItemPartNumberDefaultLength));
 
         RuleFor(x => x.Description).NotEmpty().MaximumLength(InventoryConstants.ItemPartDescriptionDefaultMaxLength)
-            .WithMessage(FormatMessage(BusinessMessages.InvalidItemDescriptionMaxLength,
+            .WithMessage(FormatMessage(InventoryMessages.InvalidItemDescriptionMaxLength,
                 InventoryConstants.ItemPartNumberDefaultLength));
 
         RuleFor(x => x.Description).NotEmpty().MinimumLength(InventoryConstants.ItemPartDescriptionDefaultMinLength)
-            .WithMessage(FormatMessage(BusinessMessages.InvalidItemDescriptionMinLength,
+            .WithMessage(FormatMessage(InventoryMessages.InvalidItemDescriptionMinLength,
                 InventoryConstants.ItemPartDescriptionDefaultMinLength));
     }
 }
