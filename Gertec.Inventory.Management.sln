@@ -19,6 +19,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Application.CommandStack", "src\Gertec.Inventory.Management.Application.CommandStack\Gertec.Inventory.Management.Application.CommandStack.csproj", "{BF94EEC4-FAFA-4918-8CA2-27CFBA9915D3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{97DCA941-9FB8-4F2A-9730-681B7A1692BF}"
+	ProjectSection(SolutionItems) = preProject
+		db\db-creation.sql = db\db-creation.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{54B7546E-6E6A-4B8E-B278-B0D8247AB98B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,12 +1,22 @@
 ﻿services:
-  gertec.inventory.management:
-    image: gertec-inventory-management
+  inventory-api:
+    image: gertec-inventory-api:${API_VERSION}
+    container_name: inventory-api
     build:
       context: .
-      dockerfile: Gertec.Inventory.Management/Dockerfile
-
-  gertec.inventory.management.application.commandstack:
-    image: gertec.inventory.management.application.commandstack
-    build:
-      context: .
-      dockerfile: Gertec.Inventory.Management.Application.CommandStack/Dockerfile
+      dockerfile: .Dockerfile
+  
+  inventory-db:
+    image: mysql/mysql-server:latest
+    container_name: my-mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - '$3306:3306'
+    volumes:
+      - mysql-volume:/var/lib/mysql
+      
+volumes:
+  mysql-volume:
+    driver: local
