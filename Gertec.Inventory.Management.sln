@@ -22,10 +22,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{CAA6A40B-C11F-410C-A98D-E722254BD9CA}"
 	ProjectSection(SolutionItems) = preProject
 		build\deploy.sh = build\deploy.sh
-		build\deploy.ps1 = build\deploy.ps1
 		src\docker-compose.yml = src\docker-compose.yml
 		Dockerfile = Dockerfile
 		src\.dockerignore = src\.dockerignore
+		build\.env.Development = build\.env.Development
 	EndProjectSection
 EndProject
 Global
