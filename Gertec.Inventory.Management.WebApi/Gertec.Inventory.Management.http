@@ -1,0 +1,6 @@
+@Gertec.Inventory.Management_HostAddress = http://localhost:5267
+
+GET {{Gertec.Inventory.Management_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
