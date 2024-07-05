@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.WebApi", "Gertec.Inventory.Management.WebApi\Gertec.Inventory.Management.WebApi.csproj", "{B4C94C36-80D8-414A-92EA-ACA99250F7F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.WebApi", "src\Gertec.Inventory.Management.WebApi\Gertec.Inventory.Management.WebApi.csproj", "{B4C94C36-80D8-414A-92EA-ACA99250F7F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2C99F07C-53AF-45FD-BFBA-37FEC62E21B9}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FB8F2AEB-0C4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1F0054CC-318C-4E91-A602-11EA1DC70B73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Domain", "Gertec.Inventory.Management.Domain\Gertec.Inventory.Management.Domain.csproj", "{8B9E4F5A-D80B-43DE-AD10-AFFE541F534A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Domain", "src\Gertec.Inventory.Management.Domain\Gertec.Inventory.Management.Domain.csproj", "{8B9E4F5A-D80B-43DE-AD10-AFFE541F534A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Infrastructure", "Gertec.Inventory.Management.Infrastructure\Gertec.Inventory.Management.Infrastructure.csproj", "{CC385A73-326B-4F9B-B30B-24C63A4589E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Infrastructure", "src\Gertec.Inventory.Management.Infrastructure\Gertec.Inventory.Management.Infrastructure.csproj", "{CC385A73-326B-4F9B-B30B-24C63A4589E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Application.QueryStack", "Gertec.Inventory.Management.Application.QueryStack\Gertec.Inventory.Management.Application.QueryStack.csproj", "{5D4E9D04-E82E-47BA-B7E0-38572B7889E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Application.QueryStack", "src\Gertec.Inventory.Management.Application.QueryStack\Gertec.Inventory.Management.Application.QueryStack.csproj", "{5D4E9D04-E82E-47BA-B7E0-38572B7889E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Application.CommandStack", "Gertec.Inventory.Management.Application.CommandStack\Gertec.Inventory.Management.Application.CommandStack.csproj", "{BF94EEC4-FAFA-4918-8CA2-27CFBA9915D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Application.CommandStack", "src\Gertec.Inventory.Management.Application.CommandStack\Gertec.Inventory.Management.Application.CommandStack.csproj", "{BF94EEC4-FAFA-4918-8CA2-27CFBA9915D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
