@@ -44,5 +44,11 @@ namespace Gertec.Inventory.Management.WebApi.Resources {
                 resourceCulture = value;
             }
         }
+        
+        internal static string MissingConfiguration {
+            get {
+                return ResourceManager.GetString("MissingConfiguration", resourceCulture);
+            }
+        }
     }
 }

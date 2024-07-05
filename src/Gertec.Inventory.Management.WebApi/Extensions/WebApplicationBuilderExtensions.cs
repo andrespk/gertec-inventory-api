@@ -1,8 +1,12 @@
 using System.Reflection;
 using Dapper.FluentMap;
 using Dapper.FluentMap.Dommel;
+using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Common.Helpers;
+using Gertec.Inventory.Management.Domain.Repositories;
+using Gertec.Inventory.Management.Infrastructure.Database;
 using Gertec.Inventory.Management.Infrastructure.Database.Mappers;
+using Gertec.Inventory.Management.WebApi.Resources;
 
 namespace Gertec.Inventory.Management.WebApi.Extensions;
 
@@ -36,8 +40,9 @@ public static class WebApplicationBuilderExtensions
     private static void AddDatabaseAndRepositories(this WebApplicationBuilder builder)
     {
         var connectionString = builder.Configuration.GetConnectionString(DbConnectionstringConfigName);
-        
-        if(connectionString is null) throw ArgumentException(MessageHelper.Format(aPI))
+
+        if (connectionString is null)
+            throw new ArgumentException(ConfigurationMessages.MissingConfiguration, DbConnectionstringConfigName);
         
         FluentMapper.Initialize(config =>
         {
@@ -46,5 +51,11 @@ public static class WebApplicationBuilderExtensions
             config.AddMap(new DailyInventoryMap());
             config.ForDommel();
         });
+        
+        var dbContext = new DbContext(connectionString);
+        
+        builder.Services.AddSingleton<IDbContext>(dbContext);
+        builder.Services.AddScoped<IItemRepository, IItemRepository>();
+        builder.Services.AddScoped<IItemRepository, IItemRepository>();
     }
 }
