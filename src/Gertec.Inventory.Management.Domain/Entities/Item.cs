@@ -6,5 +6,4 @@ public class Item : DefaultEntityBase
 {
     public string PartNumber { get; set; }
     public string Description { get; set; }
-    public string Specification { get; set; }
 }

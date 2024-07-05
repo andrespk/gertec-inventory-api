@@ -6,17 +6,17 @@ namespace Gertec.Inventory.Management.Domain.Entities;
 public class Transaction : DefaultEntityBase
 {
     public Item Item { get; private set; }
-    public DateTime CreatedAt { get; private set; }
+    public DateTime CreatedAtOnUtc { get; private set; }
     public TransactionTypes Type { get; private set; }
     public decimal Quantity { get; private set; }
     public decimal UnitPrice { get; private set; }
     public decimal Amount { get; private set; }
 
-    public Transaction(Item item, DateTime createdAt, TransactionTypes type, decimal quantity, decimal amount,
+    public Transaction(Item item, DateTime createdAtOnUtc, TransactionTypes type, decimal quantity, decimal amount,
         decimal unitPrice)
     {
         Item = item;
-        CreatedAt = createdAt;
+        CreatedAtOnUtc = createdAtOnUtc;
         Type = type;
         Quantity = quantity;
         Amount = amount;

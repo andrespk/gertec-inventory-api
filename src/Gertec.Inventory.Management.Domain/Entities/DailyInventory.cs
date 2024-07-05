@@ -40,7 +40,7 @@ public class DailyInventory : DefaultEntityBase
 
     private Balance GetInOrOutTransactionsSummary(IList<Transaction> transactions, TransactionTypes type) =>
         transactions
-            .Where(x => x.Type == type && x.Item == Item && x.CreatedAt.Date == Date)
+            .Where(x => x.Type == type && x.Item == Item && x.CreatedAtOnUtc.Date == Date)
             .Select(x => new { x.Item, x.Quantity, x.Amount })
             .GroupBy(x => x.Item, x => x, (k, g) =>
                 new Balance(g.Sum(x => x.Quantity), g.Sum(x => x.Amount)

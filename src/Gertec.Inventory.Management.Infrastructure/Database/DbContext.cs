@@ -1,18 +1,19 @@
-using Gertec.Inventory.Management.Infrastructure.Database.Abstractions;
+using System.Data;
+using Gertec.Inventory.Management.Domain.Abstractions;
 using MySql.Data.MySqlClient;
 
 namespace Gertec.Inventory.Management.Infrastructure.Database;
 
-public class InventoryDbContext: IDapperDbContext<MySqlConnection>
+public class DbContext: IDbContext
 {
     private readonly string _connectionString;
 
-    public InventoryDbContext(string connectionString)
+    public DbContext(string connectionString)
     {
         _connectionString = connectionString;
     }
 
-    public MySqlConnection GetConnection()
+    public IDbConnection GetConnection()
     {
         return new MySqlConnection(_connectionString);
     }

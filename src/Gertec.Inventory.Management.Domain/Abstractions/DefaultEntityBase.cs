@@ -1,5 +1,5 @@
 namespace Gertec.Inventory.Management.Domain.Abstractions;
 
-public abstract class DefaultEntityBase : EntityBase<Ulid>
+public abstract class DefaultEntityBase : EntityBase<Guid>
 {
 }
