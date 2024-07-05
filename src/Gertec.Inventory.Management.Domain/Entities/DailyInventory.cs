@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices.JavaScript;
 using System.Text;
 using Gertec.Inventory.Management.Domain.Abstractions;
+using Gertec.Inventory.Management.Domain.Primitives;
 using Gertec.Inventory.Management.Domain.ValueObjects;
 
 namespace Gertec.Inventory.Management.Domain.Entities;

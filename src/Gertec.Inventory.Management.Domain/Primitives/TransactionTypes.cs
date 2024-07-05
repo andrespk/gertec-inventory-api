@@ -1,4 +1,4 @@
-namespace Gertec.Inventory.Management.Domain.ValueObjects;
+namespace Gertec.Inventory.Management.Domain.Primitives;
 
 public enum TransactionTypes
 {
