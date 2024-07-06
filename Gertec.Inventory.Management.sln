@@ -16,16 +16,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{98962B64-1EB1-4CAD-AA92-1DCAD1E50718}"
 	ProjectSection(SolutionItems) = preProject
-		db\db-creation.sql = db\db-creation.sql
+		db\db-creation.template.sql = db\db-creation.template.sql
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{3BFA5CD7-37BC-41A0-8488-4F3D62F5B0B9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{42D72F9E-0361-42AD-A033-6DB1CDF7AB2A}"
 	ProjectSection(SolutionItems) = preProject
-		build\Dockerfile = build\Dockerfile
+		build\env.Development = build\env.Development
 		build\.dockerignore = build\.dockerignore
+		build\db-creation.template.sql = build\db-creation.template.sql
+		build\db-creation.sql = build\db-creation.sql
 		build\deploy.sh = build\deploy.sh
 		build\docker-compose.template.yml = build\docker-compose.template.yml
-		build\env.Development.sh = build\env.Development.sh
+		build\docker-compose.yml = build\docker-compose.yml
+		build\Dockerfile.template = build\Dockerfile.template
 	EndProjectSection
 EndProject
 Global

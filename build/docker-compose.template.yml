@@ -6,9 +6,9 @@
       context: .
       dockerfile: Dockerfile
     ports:
-      - '5000:80'
+      - '${API_EXTERNAL_PORT}:${API_PORT}'
     env_file:
-      - .env.${ASPNETCORE_ENVIRONMENT}
+      - env.${ASPNETCORE_ENVIRONMENT}
     networks:
       - gertec-app-net
       
@@ -17,13 +17,12 @@
     container_name: inventory-db-${API_ENVIRONMENT}
     restart: always
     ports:
-      - '${DB_PORT}:3306'
-    environment:
-      - MYSQL_ROOT_PASSWORD=${DB_ADMIN_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
+      - '${DB_EXTERNAL_PORT}:${DB_PORT}'
+    env_file:
+      - env.${ASPNETCORE_ENVIRONMENT}
     volumes:
-      - mysql-volume:/var/lib/mysql
-      - ../db/db-creation.sql:/docker-entrypoint-initdb.d/db-creation.sql
+      - mysql-volume:${DB_VOLUME}
+      - .db-creation.sql:/docker-entrypoint-initdb.d/db-creation.sql
     networks:
       - gertec-app-net
 

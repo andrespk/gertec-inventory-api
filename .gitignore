@@ -3,3 +3,6 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+build/docker-compose.yml
+build/db-creation.sql
+build/Dockerfile

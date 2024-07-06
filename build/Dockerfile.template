@@ -1,0 +1,15 @@
+﻿FROM ${API_BUILD_IMAGE} AS api_build
+ARG BUILD_CONFIGURATION=Release
+
+WORKDIR /build
+COPY . .
+RUN dotnet restore $API_PATH
+RUN dotnet build $API_PATH -c $BUILD_CONFIGURATION -o /release
+
+FROM ${API_RUNTIME_IMAGE} as api_release
+USER $APP_UID
+WORKDIR /api
+COPY --from=build /release .
+EXPOSE 8080
+EXPOSE 8081
+ENTRYPOINT ["dotnet", "${API_RUNTIME_TARGET}"]
