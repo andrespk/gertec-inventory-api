@@ -1,11 +1,14 @@
 using System.Runtime.InteropServices.JavaScript;
 using System.Text;
+using DeclarativeSql;
+using DeclarativeSql.Annotations;
 using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Primitives;
 using Gertec.Inventory.Management.Domain.ValueObjects;
 
 namespace Gertec.Inventory.Management.Domain.Entities;
 
+[Table(DbKind.MySql, "daily_inventory")]
 public class DailyInventory : DefaultEntityBase
 {
     public Item Item { get; private set; }

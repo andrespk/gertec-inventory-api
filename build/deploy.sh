@@ -28,8 +28,9 @@ envsubst < "Dockerfile.template" > "Dockerfile"
 set +a
 
 docker-compose down
-docker-compose up
+docker-compose up --build -d
+docker image prune -f
 
-rm -f db-creation.sql
 rm -f Dockerfile
 rm -f docker-compose.yml
+rm -f db-creation.sql

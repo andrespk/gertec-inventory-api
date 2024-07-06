@@ -21,13 +21,13 @@
     env_file:
       - env.${ASPNETCORE_ENVIRONMENT}
     volumes:
-      - mysql-volume:${DB_VOLUME}
-      - .db-creation.sql:/docker-entrypoint-initdb.d/db-creation.sql
+      - mysql-data:${DB_VOLUME}
+      - ../build/db-creation.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - gertec-app-net
 
 volumes:
-  mysql-volume:
+  mysql-data:
     driver: local
     
 networks:

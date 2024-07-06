@@ -13,7 +13,7 @@ public class DailyInventoryMap : DommelEntityMap<DailyInventory>
         Map(item => item.Date).ToColumn("inventory_date");
         Map(item => item.Balance.Quantity).ToColumn("quantity");
         Map(item => item.Balance.Amount).ToColumn("amount");
-        Map(item => item.Balance.UnitPrice).ToColumn("unit_price");
+        Map(item => item.Balance.UnitPrice).ToColumn("avg_unit_price");
         Map(item => item.Transactions).Ignore();
     }
 }

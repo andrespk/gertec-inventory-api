@@ -1,9 +1,12 @@
+using DeclarativeSql;
+using DeclarativeSql.Annotations;
 using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Primitives;
 using Gertec.Inventory.Management.Domain.ValueObjects;
 
 namespace Gertec.Inventory.Management.Domain.Entities;
 
+[Table(DbKind.MySql, "items_transactions")]
 public class Transaction : DefaultEntityBase
 {
     public Item Item { get; private set; }
