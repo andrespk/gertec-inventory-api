@@ -23,10 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{42D72F9E
 	ProjectSection(SolutionItems) = preProject
 		build\env.Development = build\env.Development
 		build\.dockerignore = build\.dockerignore
-		build\db-creation.sql = build\db-creation.sql
 		build\deploy.sh = build\deploy.sh
 		build\docker-compose.template.yml = build\docker-compose.template.yml
-		build\docker-compose.yml = build\docker-compose.yml
 		build\Dockerfile.template = build\Dockerfile.template
 	EndProjectSection
 EndProject

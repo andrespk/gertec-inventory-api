@@ -3,13 +3,13 @@ ARG BUILD_CONFIGURATION=Release
 
 WORKDIR /build
 COPY . .
-RUN dotnet restore $API_PATH
+RUN dotnet restore $API_PATH --debug
 RUN dotnet build $API_PATH -c $BUILD_CONFIGURATION -o /release
 
 FROM ${API_RUNTIME_IMAGE} as api_release
-USER $APP_UID
 WORKDIR /api
-COPY --from=build /release .
+USER $APP_UID
+COPY --from=api_build /release .
 EXPOSE 8080
 EXPOSE 8081
 ENTRYPOINT ["dotnet", "${API_RUNTIME_TARGET}"]

@@ -1,9 +1,0 @@
-export ASPNETCORE_ENVIRONMENT=Development
-export API_ENVIRONMENT=dev
-export API_VERSION=1.0.0
-export DB_IMAGE=mysql:9.0.0-oraclelinux
-export DB_HOST=localhost
-export DB_PORT=5001
-export DB_NAME=gertec_db
-export DB_ADMIN_PASSWORD=s3nh4Ma1sSecr3tA
-export DB_DEFAULT_CONNECTION=server=localhost:"${DB_PORT}";uid=app_user;pwd=s3nh4Secr3tA;database="${DB_NAME}"
