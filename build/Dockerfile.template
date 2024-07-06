@@ -1,10 +1,10 @@
 ﻿FROM ${API_BUILD_IMAGE} AS api_build
-ARG BUILD_CONFIGURATION=Release
-
+RUN mkdir -p /build/src/
+RUN mkdir -p /release
 WORKDIR /build
 COPY . .
-RUN dotnet restore $API_PATH --debug
-RUN dotnet build $API_PATH -c $BUILD_CONFIGURATION -o /release
+RUN dotnet restore $API_PATH
+RUN dotnet build $API_PATH -c Release -o /release
 
 FROM ${API_RUNTIME_IMAGE} as api_release
 WORKDIR /api

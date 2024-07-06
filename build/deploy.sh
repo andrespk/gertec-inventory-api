@@ -28,11 +28,8 @@ envsubst < "Dockerfile.template" > "Dockerfile"
 set +a
 
 docker-compose down
-docker-compose up -d
+docker-compose up
 
 rm -f db-creation.sql
 rm -f Dockerfile
 rm -f docker-compose.yml
-
-echo application has been started! 
-echo 

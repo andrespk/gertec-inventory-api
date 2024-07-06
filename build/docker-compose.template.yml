@@ -3,8 +3,8 @@
     image: gertec-inventory-api:${API_VERSION}
     container_name: inventory-api-${API_ENVIRONMENT}
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: build/Dockerfile
     ports:
       - '${API_EXTERNAL_PORT}:${API_PORT}'
     env_file:
