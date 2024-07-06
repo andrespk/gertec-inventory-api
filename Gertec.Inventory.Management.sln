@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.WebApi", "src\Gertec.Inventory.Management.WebApi\Gertec.Inventory.Management.WebApi.csproj", "{B4C94C36-80D8-414A-92EA-ACA99250F7F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Api", "src\Gertec.Inventory.Management.Api\Gertec.Inventory.Management.Api.csproj", "{B4C94C36-80D8-414A-92EA-ACA99250F7F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FB8F2AEB-0C41-4192-AF6F-B607A2519A05}"
 EndProject
@@ -14,19 +14,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gertec.Inventory.Management.Application.CommandStack", "src\Gertec.Inventory.Management.Application.CommandStack\Gertec.Inventory.Management.Application.CommandStack.csproj", "{BF94EEC4-FAFA-4918-8CA2-27CFBA9915D3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5A49FDB0-5286-4CB0-957F-8118E5221D77}"
-	ProjectSection(SolutionItems) = preProject
-		src\build\.env.Development = src\build\.env.Development
-		src\build\deploy.ps1 = src\build\deploy.ps1
-		src\build\deploy.sh = src\build\deploy.sh
-		src\build\docker-compose.yml = src\build\docker-compose.yml
-		src\build\Dockerfile = src\build\Dockerfile
-		src\build\.dockerignore = src\build\.dockerignore
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{98962B64-1EB1-4CAD-AA92-1DCAD1E50718}"
 	ProjectSection(SolutionItems) = preProject
 		db\db-creation.sql = db\db-creation.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{3BFA5CD7-37BC-41A0-8488-4F3D62F5B0B9}"
+	ProjectSection(SolutionItems) = preProject
+		build\Dockerfile = build\Dockerfile
+		build\.dockerignore = build\.dockerignore
+		build\deploy.sh = build\deploy.sh
+		build\docker-compose.template.yml = build\docker-compose.template.yml
+		build\env.Development.sh = build\env.Development.sh
 	EndProjectSection
 EndProject
 Global

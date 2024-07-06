@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gertec.Inventory.Management.WebApi.Resources {
+namespace Gertec.Inventory.Management.Api.Resources {
     using System;
     
     
@@ -28,7 +28,7 @@ namespace Gertec.Inventory.Management.WebApi.Resources {
         internal static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
-                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("Gertec.Inventory.Management.WebApi.Resources.ConfigurationMessages", typeof(ConfigurationMessages).Assembly);
+                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("Gertec.Inventory.Management.Api.Resources.ConfigurationMessages", typeof(ConfigurationMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

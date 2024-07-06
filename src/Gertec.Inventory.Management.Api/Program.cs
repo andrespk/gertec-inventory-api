@@ -1,5 +1,5 @@
-using Gertec.Inventory.Management.WebApi;
-using Gertec.Inventory.Management.WebApi.Extensions;
+using Gertec.Inventory.Management.Api;
+using Gertec.Inventory.Management.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

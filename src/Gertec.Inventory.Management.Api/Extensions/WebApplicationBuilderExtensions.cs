@@ -6,9 +6,9 @@ using Gertec.Inventory.Management.Domain.Common.Helpers;
 using Gertec.Inventory.Management.Domain.Repositories;
 using Gertec.Inventory.Management.Infrastructure.Database;
 using Gertec.Inventory.Management.Infrastructure.Database.Mappers;
-using Gertec.Inventory.Management.WebApi.Resources;
+using Gertec.Inventory.Management.Api.Resources;
 
-namespace Gertec.Inventory.Management.WebApi.Extensions;
+namespace Gertec.Inventory.Management.Api.Extensions;
 
 public static class WebApplicationBuilderExtensions
 {
