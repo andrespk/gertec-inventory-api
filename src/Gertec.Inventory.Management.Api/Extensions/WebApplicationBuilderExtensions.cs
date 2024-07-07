@@ -7,6 +7,8 @@ using Gertec.Inventory.Management.Domain.Repositories;
 using Gertec.Inventory.Management.Infrastructure.Data;
 using Gertec.Inventory.Management.Infrastructure.Data.Mappers;
 using Gertec.Inventory.Management.Infrastructure.Data.Repositories;
+using Gertec.Inventory.Management.Infrastructure.Logging;
+using Gertec.Inventory.Management.Infrastructure.Logging.Abstractions;
 
 namespace Gertec.Inventory.Management.Api.Extensions;
 
@@ -16,14 +18,10 @@ public static class WebApplicationBuilderExtensions
 
     public static void AddInfrastructure(this WebApplicationBuilder builder)
     {
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-
-        FluentMapper.Initialize(config => { config.AddMap(new ItemMap()); });
+        builder.AddServices();
     }
 
-    public static void AddServices(this WebApplicationBuilder builder)
+    private static void AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -43,6 +41,7 @@ public static class WebApplicationBuilderExtensions
             config.AddMap(new ItemMap());
             config.AddMap(new TransactionMap());
             config.AddMap(new DailyInventoryMap());
+            config.AddMap(new ApplicationLogMap());
             config.ForDommel();
         });
 
