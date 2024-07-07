@@ -3,5 +3,4 @@ using Gertec.Inventory.Management.Domain.Entities;
 
 namespace Gertec.Inventory.Management.Domain.Repositories;
 
-public interface ITransactionRepository : IReadOperations<Transaction, Guid>, ICreateOperations<Transaction>,
-    IUpdateOperations<Transaction>;
+public interface ITransactionRepository : IReadOperations<Transaction, Guid>, ICreateOperations<Transaction>;

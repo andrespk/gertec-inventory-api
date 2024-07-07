@@ -52,9 +52,7 @@ public static class WebApplicationBuilderExtensions
             config.ForDommel();
         });
         
-        var dbContext = new DbContext(connectionString);
-        
-        builder.Services.AddSingleton<IDbContext>(dbContext);
+        builder.Services.AddScoped<IDbContext, DbContext>(provider => new DbContext(connectionString));
         builder.Services.AddScoped<IItemRepository, IItemRepository>();
         builder.Services.AddScoped<IItemRepository, IItemRepository>();
     }

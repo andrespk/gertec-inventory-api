@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Dapper.FluentMap.Dommel.Mapping;
 using Gertec.Inventory.Management.Domain.Entities;
 
 namespace Gertec.Inventory.Management.Infrastructure.Database.Mappers;
 
+[ExcludeFromCodeCoverage]
 public class TransactionMap : DommelEntityMap<Transaction>
 {
     public TransactionMap()

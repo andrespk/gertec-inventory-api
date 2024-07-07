@@ -1,4 +1,4 @@
-namespace Gertec.Inventory.Management.Application.CommandStack.Inventory;
+namespace Gertec.Inventory.Management.Application.QueryStack.DailyInventory.GetBalance;
 
 public class GetDailyInventoryBalanceQueryHandler
 {

@@ -12,4 +12,11 @@ public abstract class DefaultRepository<TEntity>
         _dbConnection = dbContext.GetConnection();
         _dbConnection.Open();
     }
+
+    public CancellationToken ResolveAndConfigureCancellationToken(CancellationToken? cancellationToken)
+    {
+        var token = cancellationToken ?? new ();
+        token.ThrowIfCancellationRequested();
+        return token;
+    }
 }

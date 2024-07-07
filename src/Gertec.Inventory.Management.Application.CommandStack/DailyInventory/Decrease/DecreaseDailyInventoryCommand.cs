@@ -1,4 +1,4 @@
-namespace Gertec.Inventory.Management.Application.CommandStack.Inventory;
+namespace Gertec.Inventory.Management.Application.CommandStack.DailyInventory.Decrease;
 
 public class DecreaseDailyInventoryCommand
 {

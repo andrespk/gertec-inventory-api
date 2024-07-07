@@ -1,39 +1,40 @@
 using System.Data;
 using System.Linq.Expressions;
+using DeclarativeSql;
+using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Entities;
 using Gertec.Inventory.Management.Domain.Repositories;
 
 namespace Gertec.Inventory.Management.Infrastructure.Database.Repositories;
 
-public class TransactionRepository : ITransactionRepository
+public class TransactionRepository : DefaultRepository<Transaction>, ITransactionRepository
 {
-    public Task<Transaction> GetOneAsync(Expression<Func<Transaction, bool>>? predicate, CancellationToken? cancellationToken)
+    public TransactionRepository(IDbContext dbContext) : base(dbContext)
     {
-        throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Transaction>> GetManyAsync(Expression<Func<Transaction, bool>>? predicate, CancellationToken? cancellationToken)
+    public async Task<Transaction?> GetOneAsync(Expression<Func<Transaction, bool>> predicate,
+        CancellationToken? cancellationToken)
+        => (await Connection.SelectAsync(predicate,
+            cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken))).FirstOrDefault();
+
+    public async Task<IEnumerable<Transaction>> GetManyAsync(Expression<Func<Transaction, bool>>? predicate,
+        CancellationToken? cancellationToken)
+        => await Connection.SelectAsync(predicate,
+            cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken));
+
+    public async Task AdOneAsync(Transaction entity, IDbTransaction? transaction, CancellationToken? cancellationToken)
     {
-        throw new NotImplementedException();
+        var token = ResolveAndConfigureCancellationToken(cancellationToken);
+        var connection = transaction?.Connection ?? Connection;
+        await connection.InsertAsync(entity, cancellationToken: token);
     }
 
-    public Task AdOneAsync(Transaction entity, IDbTransaction? transaction, CancellationToken? cancellationToken)
+    public async Task AddManyAsync(IEnumerable<Transaction> entities, IDbTransaction? transaction,
+        CancellationToken? cancellationToken)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task AddManyAsync(IEnumerable<Transaction> entities, IDbTransaction? transaction, CancellationToken? cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateOneAsync(Transaction entity, IDbTransaction? transaction, CancellationToken? cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateManyAsync(IEnumerable<Transaction> entities, IDbTransaction? transaction, CancellationToken? cancellationToken)
-    {
-        throw new NotImplementedException();
+        var token = ResolveAndConfigureCancellationToken(cancellationToken);
+        var connection = transaction?.Connection ?? Connection;
+        await connection.BulkInsertAsync(entities, cancellationToken: token);
     }
 }

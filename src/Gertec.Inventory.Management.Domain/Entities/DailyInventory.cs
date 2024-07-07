@@ -3,6 +3,7 @@ using DeclarativeSql.Annotations;
 using FluentValidation;
 using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Common.Primitives;
+using Gertec.Inventory.Management.Domain.Primitives;
 using Gertec.Inventory.Management.Domain.Validators;
 using Gertec.Inventory.Management.Domain.ValueObjects;
 
