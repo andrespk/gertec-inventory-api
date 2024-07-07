@@ -10,10 +10,4 @@
       <PackageReference Include="MediatR" Version="12.3.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Item\Add\" />
-      <Folder Include="Item\Remove\" />
-      <Folder Include="Item\Update\" />
-    </ItemGroup>
-
 </Project>
