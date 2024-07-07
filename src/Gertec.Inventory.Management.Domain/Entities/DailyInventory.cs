@@ -2,6 +2,7 @@ using DeclarativeSql;
 using DeclarativeSql.Annotations;
 using FluentValidation;
 using Gertec.Inventory.Management.Domain.Abstractions;
+using Gertec.Inventory.Management.Domain.Common.Extensions;
 using Gertec.Inventory.Management.Domain.Primitives;
 using Gertec.Inventory.Management.Domain.Validators;
 using Gertec.Inventory.Management.Domain.ValueObjects;
@@ -34,7 +35,7 @@ public class DailyInventory : DefaultEntityBase
     public Item Item { get; }
     public DateTime Date { get; }
     public IList<Transaction> Transactions { get; private set; } = new List<Transaction>();
-    public Balance Balance { get; private set; } = new(InitialQuantity, InitialAmount);
+    public Balance Balance { get; private set; }
 
     public void IncreaseInventory(IList<Balance> inputs)
     {
@@ -70,8 +71,8 @@ public class DailyInventory : DefaultEntityBase
             var incoming = GetInOrOutTransactionsSummary(transactions, TransactionTypes.Incoming);
             var outgoing = GetInOrOutTransactionsSummary(transactions, TransactionTypes.Outgoing);
             var totalQuantity = previousBalance.Quantity + incoming.Quantity - outgoing.Quantity;
-            var totalAmount = TruncateValue(previousBalance.Amount + incoming.Amount - outgoing.Amount, 2);
-            var averageUnitPrice = TruncateValue(totalQuantity > 0 ? totalAmount / totalQuantity : 0, 4);
+            var totalAmount = (previousBalance.Amount + incoming.Amount - outgoing.Amount).TruncateTo(2);
+            var averageUnitPrice = (totalQuantity > 0 ? totalAmount / totalQuantity : 0).TruncateTo(4);
 
             Balance = new Balance(totalQuantity, totalAmount, averageUnitPrice);
         }
@@ -92,11 +93,5 @@ public class DailyInventory : DefaultEntityBase
                 new Balance(g.Sum(x => x.Quantity), g.Sum(x => x.Amount)
                 ))
             .FirstOrDefault();
-    }
-
-    private decimal TruncateValue(decimal value, int precision)
-    {
-        var factor = int.Parse($"1{new string('0', precision)}");
-        return Math.Truncate(factor * value) / factor;
     }
 }

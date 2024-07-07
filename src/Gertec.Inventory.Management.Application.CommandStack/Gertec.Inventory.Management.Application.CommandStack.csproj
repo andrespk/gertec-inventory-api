@@ -11,4 +11,8 @@
         <PackageReference Include="MediatR" Version="12.3.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Gertec.Inventory.Management.Domain\Gertec.Inventory.Management.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
