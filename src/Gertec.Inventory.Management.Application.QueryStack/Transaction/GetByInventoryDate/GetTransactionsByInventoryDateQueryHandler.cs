@@ -2,5 +2,4 @@ namespace Gertec.Inventory.Management.Application.QueryStack.Transaction.GetByIn
 
 public class GetTransactionsByInventoryDateQueryHandler
 {
-    
 }

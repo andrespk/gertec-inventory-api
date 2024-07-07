@@ -2,5 +2,4 @@ namespace Gertec.Inventory.Management.Application.QueryStack.DailyInventory.GetB
 
 public class GetDailyInventoryBalanceQueryHandler
 {
-    
 }

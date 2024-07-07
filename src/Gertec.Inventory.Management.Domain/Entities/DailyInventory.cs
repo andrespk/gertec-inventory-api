@@ -2,7 +2,6 @@ using DeclarativeSql;
 using DeclarativeSql.Annotations;
 using FluentValidation;
 using Gertec.Inventory.Management.Domain.Abstractions;
-using Gertec.Inventory.Management.Domain.Common.Primitives;
 using Gertec.Inventory.Management.Domain.Primitives;
 using Gertec.Inventory.Management.Domain.Validators;
 using Gertec.Inventory.Management.Domain.ValueObjects;
@@ -12,15 +11,10 @@ namespace Gertec.Inventory.Management.Domain.Entities;
 [Table(DbKind.MySql, "daily_inventory")]
 public class DailyInventory : DefaultEntityBase
 {
-    private readonly DailyInventoryValidator _validator = new();
-    private readonly TransactionValidator _transactionValidator = new();
     private const int InitialQuantity = 0;
     private const int InitialAmount = 0;
-
-    public Item Item { get; private set; }
-    public DateTime Date { get; private set; }
-    public IList<Transaction> Transactions { get; private set; } = new List<Transaction>();
-    public Balance Balance { get; private set; } = new(InitialQuantity, InitialAmount);
+    private readonly TransactionValidator _transactionValidator = new();
+    private readonly DailyInventoryValidator _validator = new();
 
     public DailyInventory(Item item, DateTime inventoryDate, Balance initialBalance)
     {
@@ -34,8 +28,13 @@ public class DailyInventory : DefaultEntityBase
         : this(item, inventoryDate, initialBalance)
     {
         Transactions = transactions ?? Transactions;
-        RefreshBalance(Transactions, initialBalance);
+        UpdateBalance(Transactions, initialBalance);
     }
+
+    public Item Item { get; }
+    public DateTime Date { get; }
+    public IList<Transaction> Transactions { get; private set; } = new List<Transaction>();
+    public Balance Balance { get; private set; } = new(InitialQuantity, InitialAmount);
 
     public void IncreaseInventory(IList<Balance> inputs)
     {
@@ -59,12 +58,12 @@ public class DailyInventory : DefaultEntityBase
     {
         if (transactions is not null)
         {
-            RefreshBalance(transactions, Balance);
+            UpdateBalance(transactions, Balance);
             Transactions = Transactions.Concat(transactions).ToList();
         }
     }
 
-    private void RefreshBalance(IList<Transaction>? transactions, Balance previousBalance)
+    private void UpdateBalance(IList<Transaction>? transactions, Balance previousBalance)
     {
         if (transactions is not null && transactions.Any())
         {
@@ -77,23 +76,27 @@ public class DailyInventory : DefaultEntityBase
             Balance = new Balance(totalQuantity, totalAmount, averageUnitPrice);
         }
         else
+        {
             Balance = previousBalance;
+        }
 
         _validator.ValidateAndThrow(this);
     }
 
-    private Balance GetInOrOutTransactionsSummary(IList<Transaction> transactions, TransactionTypes type) =>
-        transactions
+    private Balance GetInOrOutTransactionsSummary(IList<Transaction> transactions, TransactionTypes type)
+    {
+        return transactions
             .Where(x => x.Type == type && x.Item == Item && x.InventoriedAtUtc == Date)
             .Select(x => new { x.Item, x.Quantity, x.Amount })
             .GroupBy(x => x.Item, x => x, (k, g) =>
                 new Balance(g.Sum(x => x.Quantity), g.Sum(x => x.Amount)
                 ))
             .FirstOrDefault();
+    }
 
     private decimal TruncateValue(decimal value, int precision)
     {
-        var factor = int.Parse($"1{new String('0', precision)}");
+        var factor = int.Parse($"1{new string('0', precision)}");
         return Math.Truncate(factor * value) / factor;
     }
 }

@@ -2,9 +2,9 @@ using System.Data;
 using Gertec.Inventory.Management.Domain.Abstractions;
 using MySql.Data.MySqlClient;
 
-namespace Gertec.Inventory.Management.Infrastructure.Database;
+namespace Gertec.Inventory.Management.Infrastructure.Data;
 
-public class DbContext: IDbContext
+public class DbContext : IDbContext
 {
     private readonly string _connectionString;
 

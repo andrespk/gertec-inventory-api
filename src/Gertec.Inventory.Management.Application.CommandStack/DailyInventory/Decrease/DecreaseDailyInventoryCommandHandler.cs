@@ -2,5 +2,4 @@ namespace Gertec.Inventory.Management.Application.CommandStack.DailyInventory.De
 
 public class DecreaseDailyInventoryCommandHandler
 {
-    
 }

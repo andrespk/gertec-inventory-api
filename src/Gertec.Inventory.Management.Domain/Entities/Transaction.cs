@@ -2,24 +2,15 @@ using DeclarativeSql;
 using DeclarativeSql.Annotations;
 using FluentValidation;
 using Gertec.Inventory.Management.Domain.Abstractions;
-using Gertec.Inventory.Management.Domain.Common.Primitives;
 using Gertec.Inventory.Management.Domain.Primitives;
 using Gertec.Inventory.Management.Domain.Validators;
-using Gertec.Inventory.Management.Domain.ValueObjects;
 
 namespace Gertec.Inventory.Management.Domain.Entities;
 
 [Table(DbKind.MySql, "items_transactions")]
 public class Transaction : DefaultEntityBase
 {
-    private readonly TransactionValidator _validator = new ();
-    public Item Item { get; private set; }
-    public DateTime InventoriedAtUtc { get; private set; }
-    public DateTime CreatedAtUtc { get; private set; }
-    public TransactionTypes Type { get; private set; }
-    public decimal Quantity { get; private set; }
-    public decimal UnitPrice { get; private set; }
-    public decimal Amount { get; private set; }
+    private readonly TransactionValidator _validator = new();
 
     public Transaction(Item item, DateTime inventoriedAtUtc, DateTime createdAtUtc, TransactionTypes type,
         decimal quantity, decimal amount,
@@ -32,7 +23,15 @@ public class Transaction : DefaultEntityBase
         Quantity = quantity;
         Amount = amount;
         UnitPrice = unitPrice;
-        
+
         _validator.ValidateAndThrow(this);
     }
+
+    public Item Item { get; private set; }
+    public DateTime InventoriedAtUtc { get; private set; }
+    public DateTime CreatedAtUtc { get; private set; }
+    public TransactionTypes Type { get; private set; }
+    public decimal Quantity { get; private set; }
+    public decimal UnitPrice { get; private set; }
+    public decimal Amount { get; private set; }
 }

@@ -1,4 +1,4 @@
-namespace Gertec.Inventory.Management.Api.Abstractions;
+namespace Gertec.Inventory.Management.Api.Rest.Abstractions;
 
 public interface IRestEndpoint
 {

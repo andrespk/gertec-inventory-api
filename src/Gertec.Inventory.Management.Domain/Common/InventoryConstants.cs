@@ -8,5 +8,4 @@ public static class InventoryConstants
     public static int ItemDefaultMinimumQuantity = 0;
     public static int ItemDefaultMinimumAmount = 0;
     public static int ItemDefaultMinimumUnitPrice = 0;
-    
 }

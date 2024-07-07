@@ -11,10 +11,9 @@ public class TransactionValidator : FluentValidatorBase<Transaction>
     public TransactionValidator()
     {
         RuleFor(x => x.Item).SetValidator(new ItemValidator());
-        
-        RuleFor(x => x.Type).NotEmpty().
-            WithMessage(BusinessMessages.InvalidTransactionType);
-        
+
+        RuleFor(x => x.Type).NotEmpty().WithMessage(BusinessMessages.InvalidTransactionType);
+
         RuleFor(x => x.InventoriedAtUtc).NotEmpty().GreaterThanOrEqualTo(DateTime.UtcNow)
             .WithMessage(BusinessMessages.InvalidDate);
 

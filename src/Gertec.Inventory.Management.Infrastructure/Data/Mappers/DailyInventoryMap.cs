@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Dapper.FluentMap.Dommel.Mapping;
 using Gertec.Inventory.Management.Domain.Entities;
 
-namespace Gertec.Inventory.Management.Infrastructure.Database.Mappers;
+namespace Gertec.Inventory.Management.Infrastructure.Data.Mappers;
 
 [ExcludeFromCodeCoverage]
 public class DailyInventoryMap : DommelEntityMap<DailyInventory>

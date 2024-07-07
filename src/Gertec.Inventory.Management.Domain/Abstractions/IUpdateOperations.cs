@@ -2,8 +2,8 @@ using System.Data;
 
 namespace Gertec.Inventory.Management.Domain.Abstractions;
 
-public interface IUpdateOperations<in TEntity>
+public interface IUpdateOperations<in TModel>
 {
-    Task UpdateOneAsync(TEntity entity, IDbTransaction? transaction, CancellationToken? cancellationToken);
-    Task UpdateManyAsync(IEnumerable<TEntity> entities, IDbTransaction? transaction, CancellationToken? cancellationToken);
+    Task UpdateOneAsync(TModel model, IDbTransaction? transaction, CancellationToken? cancellationToken);
+    Task UpdateManyAsync(IEnumerable<TModel> models, IDbTransaction? transaction, CancellationToken? cancellationToken);
 }

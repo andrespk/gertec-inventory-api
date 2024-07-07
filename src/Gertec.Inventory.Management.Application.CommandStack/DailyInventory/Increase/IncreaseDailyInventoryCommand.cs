@@ -2,5 +2,4 @@ namespace Gertec.Inventory.Management.Application.CommandStack.DailyInventory.In
 
 public class IncreaseDailyInventoryCommand
 {
-    
 }

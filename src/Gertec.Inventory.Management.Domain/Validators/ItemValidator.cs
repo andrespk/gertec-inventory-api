@@ -14,11 +14,11 @@ public class ItemValidator : FluentValidatorBase<Item>
             FormatMessage(BusinessMessages.InvalidItemPartNumber,
                 InventoryConstants.ItemPartNumberDefaultLength));
 
-        RuleFor(x => x.Description).NotEmpty().MaximumLength(InventoryConstants.ItemPartDescriptionDefaultMaxLength)
+        RuleFor(x => x.Name).NotEmpty().MaximumLength(InventoryConstants.ItemPartDescriptionDefaultMaxLength)
             .WithMessage(FormatMessage(BusinessMessages.InvalidItemDescriptionMaxLength,
                 InventoryConstants.ItemPartNumberDefaultLength));
 
-        RuleFor(x => x.Description).NotEmpty().MinimumLength(InventoryConstants.ItemPartDescriptionDefaultMinLength)
+        RuleFor(x => x.Name).NotEmpty().MinimumLength(InventoryConstants.ItemPartDescriptionDefaultMinLength)
             .WithMessage(FormatMessage(BusinessMessages.InvalidItemDescriptionMinLength,
                 InventoryConstants.ItemPartDescriptionDefaultMinLength));
     }

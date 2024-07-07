@@ -11,7 +11,7 @@ public class DailyInventoryValidator : FluentValidatorBase<DailyInventory>
     public DailyInventoryValidator()
     {
         RuleFor(x => x.Item).SetValidator(new ItemValidator());
-        
+
         RuleFor(x => x.Date).NotEmpty().GreaterThanOrEqualTo(DateTime.UtcNow)
             .WithMessage(BusinessMessages.InvalidDate);
 

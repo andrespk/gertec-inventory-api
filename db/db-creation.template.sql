@@ -34,3 +34,14 @@ avg_unit_price DECIMAL(10, 4),
 FOREIGN KEY (item_id) REFERENCES ${DB_NAME}.items(id) ON UPDATE CASCADE ON DELETE RESTRICT,
 INDEX (item_id, inventory_date)
 );
+
+CREATE TABLE IF NOT EXISTS ${DB_NAME}.application_logs (
+id BINARY(16) PRIMARY KEY,
+Timestamp DATETIME NOT NULL,
+Level VARCHAR(20) NOT NULL,
+Message TEXT NOT NULL,
+Source VARCHAR(2000) NOT NULL,
+Exception TEXT,
+Request TEXT,
+ResponseStatus TEXT
+);

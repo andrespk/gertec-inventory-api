@@ -5,10 +5,12 @@ using DeclarativeSql;
 using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Constants;
 using Gertec.Inventory.Management.Domain.Entities;
+using Gertec.Inventory.Management.Domain.Models.DailyInventory;
 using Gertec.Inventory.Management.Domain.Repositories;
 using Gertec.Inventory.Management.Domain.ValueObjects;
+using Mapster;
 
-namespace Gertec.Inventory.Management.Infrastructure.Database.Repositories;
+namespace Gertec.Inventory.Management.Infrastructure.Data.Repositories;
 
 public class DailyInventoryRepository : DefaultRepository, IDailyInventoryRepository
 {
@@ -18,49 +20,65 @@ public class DailyInventoryRepository : DefaultRepository, IDailyInventoryReposi
     {
     }
 
-    public async Task<DailyInventory?> GetOneAsync(Expression<Func<DailyInventory, bool>> predicate,
+    public async Task<DailyInventoryDto?> GetOneAsync(Expression<Func<DailyInventory, bool>> predicate,
         CancellationToken? cancellationToken)
-        => (await Connection.SelectAsync(predicate,
-            cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken)))?.FirstOrDefault();
+    {
+        return (await Connection.SelectAsync(predicate,
+                cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken)))?
+            .FirstOrDefault()?
+            .Adapt<DailyInventoryDto>();
+    }
 
-    public async Task<IEnumerable<DailyInventory>> GetManyAsync(Expression<Func<DailyInventory, bool>>? predicate,
+    public async Task<IEnumerable<DailyInventoryDto>> GetManyAsync(Expression<Func<DailyInventory, bool>>? predicate,
         CancellationToken? cancellationToken)
-        => await Connection.SelectAsync(predicate,
-            cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken));
+    {
+        return (await Connection.SelectAsync(predicate,
+                cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken)))?
+            .Adapt<IEnumerable<DailyInventoryDto>>();
+    }
 
-    public async Task AdOneAsync(DailyInventory entity, IDbTransaction? transaction,
+    public async Task AdOneAsync(AddDailyInventoryDto model, IDbTransaction? transaction,
         CancellationToken? cancellationToken)
     {
         var token = ResolveAndConfigureCancellationToken(cancellationToken);
         var connection = transaction?.Connection ?? Connection;
+        var entity = model.Adapt<DailyInventory>();
         await connection.InsertAsync(entity, cancellationToken: token);
     }
 
-    public async Task AddManyAsync(IEnumerable<DailyInventory> entities, IDbTransaction? transaction,
+    public async Task AddManyAsync(IEnumerable<AddDailyInventoryDto> models, IDbTransaction? transaction,
         CancellationToken? cancellationToken)
     {
         var token = ResolveAndConfigureCancellationToken(cancellationToken);
         var connection = transaction?.Connection ?? Connection;
+        var entities = models.Adapt<IEnumerable<DailyInventory>>();
         await connection.BulkInsertAsync(entities, cancellationToken: token);
     }
 
-    public async Task UpdateOneAsync(DailyInventory entity, IDbTransaction? transaction,
+    public async Task UpdateOneAsync(UpdateDailyInventoryDto model, IDbTransaction? transaction,
         CancellationToken? cancellationToken)
     {
         var token = ResolveAndConfigureCancellationToken(cancellationToken);
-        var connection = transaction?.Connection ?? Connection;
+        var existing = await GetOneAsync(x => x.Id == model.ItemId, cancellationToken);
 
-        using (connection)
-            await connection.InsertAsync(entity, cancellationToken: token);
+        if (existing is not null)
+        {
+            var connection = transaction?.Connection ?? Connection;
+            var entity = model.Adapt<DailyInventory>();
+            using (connection)
+            {
+                await connection.InsertAsync(entity, cancellationToken: token);
+            }
+        }
     }
 
-    public async Task UpdateManyAsync(IEnumerable<DailyInventory> entities, IDbTransaction? transaction,
+    public async Task UpdateManyAsync(IEnumerable<UpdateDailyInventoryDto> models, IDbTransaction? transaction,
         CancellationToken? cancellationToken)
     {
         var token = ResolveAndConfigureCancellationToken(cancellationToken);
         var connection = transaction?.Connection ?? Connection;
-        foreach (var entity in entities)
-            await connection.UpdateAsync(entity, cancellationToken: token);
+        foreach (var model in models)
+            await UpdateOneAsync(model, transaction, cancellationToken);
     }
 
     public async Task<Balance> GetInitialBalanceAsync(DateTime inventoryDate, Guid itemId,

@@ -8,5 +8,9 @@ namespace Gertec.Inventory.Management.Domain.Entities;
 public class Item : DefaultEntityBase
 {
     public string PartNumber { get; set; }
-    public string Description { get; set; }
+    public string Name { get; set; }
+
+    public bool IsRemoved { get; set; }
+
+    public DateTime? RemovedAtUtc { get; set; }
 }

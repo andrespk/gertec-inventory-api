@@ -9,34 +9,34 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Dapper.FluentMap" Version="2.0.0" />
-        <PackageReference Include="Dapper.FluentMap.Dommel" Version="2.0.0" />
-        <PackageReference Include="MediatR" Version="12.3.0" />
+        <PackageReference Include="Dapper.FluentMap" Version="2.0.0"/>
+        <PackageReference Include="Dapper.FluentMap.Dommel" Version="2.0.0"/>
+        <PackageReference Include="MediatR" Version="12.3.0"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.5"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Rest\" />
+        <Folder Include="Rest\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Gertec.Inventory.Management.Infrastructure\Gertec.Inventory.Management.Infrastructure.csproj" />
+        <ProjectReference Include="..\Gertec.Inventory.Management.Infrastructure\Gertec.Inventory.Management.Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Update="Resources\ConfigurationMessages.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Api.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
+        <EmbeddedResource Update="Resources\ConfigurationMessages.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Api.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Resources\ConfigurationMessages.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>ConfigurationMessages.resx</DependentUpon>
-      </Compile>
+        <Compile Update="Resources\ConfigurationMessages.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ConfigurationMessages.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

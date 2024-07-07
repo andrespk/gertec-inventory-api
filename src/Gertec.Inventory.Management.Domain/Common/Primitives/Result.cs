@@ -4,10 +4,7 @@ public class Result
 {
     private Result(bool isSuccess, BusinessException? exception = default)
     {
-        if (exception is not null)
-        {
-            throw exception;
-        }
+        if (exception is not null) throw exception;
 
         IsSuccess = isSuccess;
         Exception = exception;
@@ -19,7 +16,13 @@ public class Result
 
     public BusinessException? Exception { get; }
 
-    public static Result Success() => new(true);
+    public static Result Success()
+    {
+        return new Result(true);
+    }
 
-    public static Result Failure(BusinessException error) => new(false, error);
+    public static Result Failure(BusinessException error)
+    {
+        return new Result(false, error);
+    }
 }
