@@ -6,6 +6,7 @@ using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Repositories;
 using Gertec.Inventory.Management.Infrastructure.Data;
 using Gertec.Inventory.Management.Infrastructure.Data.Mappers;
+using Gertec.Inventory.Management.Infrastructure.Data.Repositories;
 
 namespace Gertec.Inventory.Management.Api.Extensions;
 
@@ -46,7 +47,9 @@ public static class WebApplicationBuilderExtensions
         });
 
         builder.Services.AddScoped<IDbContext, DbContext>(provider => new DbContext(connectionString));
-        builder.Services.AddScoped<IItemRepository, IItemRepository>();
-        builder.Services.AddScoped<IItemRepository, IItemRepository>();
+        builder.Services.AddScoped<IItemRepository, ItemRepository>();
+        builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+        builder.Services.AddScoped<IDailyInventoryRepository, DailyInventoryRepository>();
+        builder.Services.AddScoped<IApplicationLogRepository, ApplicationLogRepository>();
     }
 }

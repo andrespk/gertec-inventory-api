@@ -6,7 +6,7 @@ using Gertec.Inventory.Management.Domain.Entities;
 
 namespace Gertec.Inventory.Management.Domain.Validators;
 
-public class DailyInventoryValidator : FluentValidatorBase<DailyInventory>
+public class DailyInventoryValidator : ValidatorBase<DailyInventory>
 {
     public DailyInventoryValidator()
     {

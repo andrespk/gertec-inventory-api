@@ -7,7 +7,8 @@ public class ApplicationLogMap : DommelEntityMap<ApplicationLog>
 {
     public ApplicationLogMap()
     {
-        ToTable("items_daily_inventory");
+        ToTable("application_logs");
         Map(item => item.Id).IsKey();
+        Map(item => item.ProblemDetails).ToColumn("problem_details");
     }
 }

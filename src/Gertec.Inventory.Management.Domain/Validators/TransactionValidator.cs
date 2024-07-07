@@ -6,7 +6,7 @@ using Gertec.Inventory.Management.Domain.Entities;
 
 namespace Gertec.Inventory.Management.Domain.Validators;
 
-public class TransactionValidator : FluentValidatorBase<Transaction>
+public class TransactionValidator : ValidatorBase<Transaction>
 {
     public TransactionValidator()
     {

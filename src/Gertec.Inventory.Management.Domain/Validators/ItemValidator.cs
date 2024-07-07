@@ -6,7 +6,7 @@ using Gertec.Inventory.Management.Domain.Entities;
 
 namespace Gertec.Inventory.Management.Domain.Validators;
 
-public class ItemValidator : FluentValidatorBase<Item>
+public class ItemValidator : ValidatorBase<Item>
 {
     public ItemValidator()
     {

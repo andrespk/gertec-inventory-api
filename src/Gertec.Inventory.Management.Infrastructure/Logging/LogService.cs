@@ -1,3 +1,4 @@
+using Gertec.Inventory.Management.Domain.Common.Primitives;
 using Gertec.Inventory.Management.Infrastructure.Data.Helpers;
 using Gertec.Inventory.Management.Infrastructure.Logging.Abstractions;
 using Microsoft.AspNetCore.Mvc;
@@ -15,31 +16,34 @@ public class LogService : ILogService
     {
         _configuration = configuration;
 
+        var connectionString = _configuration.GetConnectionString(DbHelper.DefaultConnectionConfigName);
+
         Log.Logger = new LoggerConfiguration()
-            .WriteTo.MySQL(
-                _configuration.GetConnectionString(DbHelper.DefaultConnectionConfigName),
-                LogTableName,
-                storeTimestampInUtc: true)
+            .WriteTo.Console()
+            .WriteTo.MySQL(connectionString, LogTableName, storeTimestampInUtc: true)
             .CreateLogger();
     }
 
-    public Task LogInformation(string source, string Message, string? request)
+    public void LogInformation(string source, string message, RequestDetails? request = default)
     {
-        throw new NotImplementedException();
+        Log.Logger.Information("Source: {@Source}, Message: {@Message}, Request: {@Request}", source, message, request);
     }
 
-    public Task LogWarning(string source, string Message, string? request)
+    public void LogWarning(string source, string message, RequestDetails? request = default)
     {
-        throw new NotImplementedException();
+        Log.Logger.Warning("Source: {@Source}, Message: {@Message}, Request: {@Request}", source, message, request);
     }
 
-    public Task LogError(string source, string Message, Exception exception)
+    public void LogError(string source, string message, Exception exception, RequestDetails? request = default)
     {
-        throw new NotImplementedException();
+        Log.Logger.Error("Source: {@Source}, Message: {@Message}, Request: {@Request}, Exception: {@Exception}", source,
+            message, request, exception);
     }
 
-    public Task LogError(string source, string Message, ProblemDetails exception)
+    public void LogError(string source, string message, ProblemDetails problemDetails, RequestDetails request)
     {
-        throw new NotImplementedException();
+        Log.Logger.Error(
+            "Source: {@Source}, Message: {@Message}, Request: {@Request}, ProblemDetails: {@ProblemDetails}", source,
+            message, request, problemDetails);
     }
 }
