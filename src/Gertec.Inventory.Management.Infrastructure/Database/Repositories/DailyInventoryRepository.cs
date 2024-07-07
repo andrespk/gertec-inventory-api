@@ -1,13 +1,16 @@
 using System.Data;
 using System.Linq.Expressions;
+using DapperQueryBuilder;
 using DeclarativeSql;
 using Gertec.Inventory.Management.Domain.Abstractions;
+using Gertec.Inventory.Management.Domain.Constants;
 using Gertec.Inventory.Management.Domain.Entities;
 using Gertec.Inventory.Management.Domain.Repositories;
+using Gertec.Inventory.Management.Domain.ValueObjects;
 
 namespace Gertec.Inventory.Management.Infrastructure.Database.Repositories;
 
-public class DailyInventoryRepository : DefaultRepository<DailyInventory>, IDailyInventoryRepository
+public class DailyInventoryRepository : DefaultRepository, IDailyInventoryRepository
 {
     private const string EntityName = nameof(DailyInventory);
 
@@ -18,7 +21,7 @@ public class DailyInventoryRepository : DefaultRepository<DailyInventory>, IDail
     public async Task<DailyInventory?> GetOneAsync(Expression<Func<DailyInventory, bool>> predicate,
         CancellationToken? cancellationToken)
         => (await Connection.SelectAsync(predicate,
-            cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken))).FirstOrDefault();
+            cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken)))?.FirstOrDefault();
 
     public async Task<IEnumerable<DailyInventory>> GetManyAsync(Expression<Func<DailyInventory, bool>>? predicate,
         CancellationToken? cancellationToken)
@@ -46,7 +49,9 @@ public class DailyInventoryRepository : DefaultRepository<DailyInventory>, IDail
     {
         var token = ResolveAndConfigureCancellationToken(cancellationToken);
         var connection = transaction?.Connection ?? Connection;
-        await connection.InsertAsync(entity, cancellationToken: token);
+
+        using (connection)
+            await connection.InsertAsync(entity, cancellationToken: token);
     }
 
     public async Task UpdateManyAsync(IEnumerable<DailyInventory> entities, IDbTransaction? transaction,
@@ -56,5 +61,23 @@ public class DailyInventoryRepository : DefaultRepository<DailyInventory>, IDail
         var connection = transaction?.Connection ?? Connection;
         foreach (var entity in entities)
             await connection.UpdateAsync(entity, cancellationToken: token);
+    }
+
+    public async Task<Balance> GetInitialBalanceAsync(DateTime inventoryDate, Guid itemId,
+        CancellationToken? cancellationToken)
+    {
+        var initialBalance = new Balance(InventoryConstants.ItemDefaultMinimumQuantity,
+            InventoryConstants.ItemDefaultMinimumAmount);
+        var previousInventoryDate = Connection.QueryBuilder(@$"SELECT MAX(inventory_date) FROM items_daily_inventory
+                                    WHERE item_id = {itemId} AND inventory_date < {inventoryDate}")
+            .QueryFirstOrDefault<DateTime?>();
+
+        if (previousInventoryDate is null)
+            return initialBalance;
+
+        var inventory = (await GetManyAsync(x => x.Id == itemId && x.Date == inventoryDate, cancellationToken))?
+            .FirstOrDefault();
+
+        return inventory?.Balance ?? initialBalance;
     }
 }

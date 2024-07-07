@@ -8,7 +8,7 @@ using Gertec.Inventory.Management.Domain.Repositories;
 
 namespace Gertec.Inventory.Management.Infrastructure.Database.Repositories;
 
-public class ItemRepository : DefaultRepository<Item>, IItemRepository
+public class ItemRepository : DefaultRepository, IItemRepository
 {
     public ItemRepository(DbContext dbContext) : base(dbContext)
     {
@@ -16,7 +16,7 @@ public class ItemRepository : DefaultRepository<Item>, IItemRepository
 
     public async Task<Item?> GetOneAsync(Expression<Func<Item, bool>> predicate, CancellationToken? cancellationToken)
         => (await Connection.SelectAsync(predicate,
-            cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken))).FirstOrDefault();
+            cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken)))?.FirstOrDefault();
 
 
     public async Task<IEnumerable<Item>> GetManyAsync(Expression<Func<Item, bool>>? predicate,

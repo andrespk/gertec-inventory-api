@@ -7,7 +7,7 @@ using Gertec.Inventory.Management.Domain.Repositories;
 
 namespace Gertec.Inventory.Management.Infrastructure.Database.Repositories;
 
-public class TransactionRepository : DefaultRepository<Transaction>, ITransactionRepository
+public class TransactionRepository : DefaultRepository, ITransactionRepository
 {
     public TransactionRepository(IDbContext dbContext) : base(dbContext)
     {

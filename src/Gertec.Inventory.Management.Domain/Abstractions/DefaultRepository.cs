@@ -2,7 +2,7 @@ using System.Data;
 
 namespace Gertec.Inventory.Management.Domain.Abstractions;
 
-public abstract class DefaultRepository<TEntity>
+public abstract class DefaultRepository : IDisposable
 {
     private readonly IDbConnection _dbConnection;
 
@@ -18,5 +18,10 @@ public abstract class DefaultRepository<TEntity>
         var token = cancellationToken ?? new ();
         token.ThrowIfCancellationRequested();
         return token;
+    }
+
+    public void Dispose()
+    {
+        Connection.Dispose();
     }
 }
