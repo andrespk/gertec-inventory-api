@@ -2,11 +2,11 @@ namespace Gertec.Inventory.Management.Domain.Common.Primitives;
 
 public class Result
 {
-    private Result(bool isSuccess, BusinessException exception)
+    private Result(bool isSuccess, BusinessException? exception = default)
     {
-        if (hasValidationFailed(isSuccess, exception))
+        if (exception is not null)
         {
-            throw new ArgumentException(exception.Description, nameof(exception));
+            throw exception;
         }
 
         IsSuccess = isSuccess;
@@ -17,13 +17,9 @@ public class Result
 
     public bool IsFailure => !IsSuccess;
 
-    public BusinessException Exception { get; }
+    public BusinessException? Exception { get; }
 
-    public static Result Success() => new(true, BusinessException.None);
+    public static Result Success() => new(true);
 
     public static Result Failure(BusinessException error) => new(false, error);
-
-    private bool hasValidationFailed(bool isSuccess, BusinessException exception)
-        => isSuccess && exception != BusinessException.None ||
-           !isSuccess && exception == BusinessException.None;
 }

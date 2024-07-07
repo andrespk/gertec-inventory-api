@@ -1,6 +1,14 @@
 namespace Gertec.Inventory.Management.Domain.Common.Primitives;
 
-public record BusinessException(string Code, string Description)
+public abstract class BusinessException : Exception
 {
-    public static readonly BusinessException None = new(string.Empty, string.Empty);
+    public BusinessException(string message) : base(message)
+    {
+        
+    }
+
+    protected BusinessException()
+    {
+        
+    }
 }

@@ -1,9 +1,9 @@
-using System.Runtime.InteropServices.JavaScript;
-using System.Text;
 using DeclarativeSql;
 using DeclarativeSql.Annotations;
+using FluentValidation;
 using Gertec.Inventory.Management.Domain.Abstractions;
-using Gertec.Inventory.Management.Domain.Primitives;
+using Gertec.Inventory.Management.Domain.Common.Primitives;
+using Gertec.Inventory.Management.Domain.Validators;
 using Gertec.Inventory.Management.Domain.ValueObjects;
 
 namespace Gertec.Inventory.Management.Domain.Entities;
@@ -11,47 +11,86 @@ namespace Gertec.Inventory.Management.Domain.Entities;
 [Table(DbKind.MySql, "daily_inventory")]
 public class DailyInventory : DefaultEntityBase
 {
+    private readonly DailyInventoryValidator _validator = new();
+    private readonly TransactionValidator _transactionValidator = new();
+    private const int InitialQuantity = 0;
+    private const int InitialAmount = 0;
+
     public Item Item { get; private set; }
     public DateTime Date { get; private set; }
-    public IList<Transaction> Transactions { get; private set; }
-    public Balance Balance { get; private set; }
+    public IList<Transaction> Transactions { get; private set; } = new List<Transaction>();
+    public Balance Balance { get; private set; } = new(InitialQuantity, InitialAmount);
 
-    public DailyInventory(Item item, DateTime date, Balance previousBalance, IList<Transaction>? transactions = default)
+    public DailyInventory(Item item, DateTime inventoryDate, Balance initialBalance)
     {
         Item = item;
-        Date = date;
-        Transactions = transactions ?? new List<Transaction>();
-        Balance = new Balance(0, 0, 0);
-
-        RefreshBalance(Transactions, previousBalance);
+        Date = inventoryDate.Date;
+        Balance = initialBalance;
     }
 
-    private void RefreshBalance(IList<Transaction> transactions, Balance previousBalance)
+    public DailyInventory(Item item, DateTime inventoryDate, Balance initialBalance,
+        IList<Transaction>? transactions = default)
+        : this(item, inventoryDate, initialBalance)
     {
-        if (transactions.Any())
+        Transactions = transactions ?? Transactions;
+        RefreshBalance(Transactions, initialBalance);
+    }
+
+    public void IncreaseInventory(IList<Balance> inputs)
+    {
+        var transactions = inputs?.Select(x =>
+                new Transaction(Item, Date, DateTime.UtcNow, TransactionTypes.Incoming, x.Quantity, x.Amount,
+                    x.UnitPrice))
+            .ToList();
+        UpdateInventory(transactions);
+    }
+
+    public void DecreaseInventory(decimal quantity)
+    {
+        var transactions = new List<Transaction>();
+        var amount = quantity * Balance.UnitPrice;
+        transactions.Add(new Transaction(Item, Date, DateTime.UtcNow, TransactionTypes.Outgoing, quantity, amount,
+            Balance.UnitPrice));
+        UpdateInventory(transactions);
+    }
+
+    private void UpdateInventory(List<Transaction>? transactions)
+    {
+        if (transactions is not null)
+        {
+            RefreshBalance(transactions, Balance);
+            Transactions = Transactions.Concat(transactions).ToList();
+        }
+    }
+
+    private void RefreshBalance(IList<Transaction>? transactions, Balance previousBalance)
+    {
+        if (transactions is not null && transactions.Any())
         {
             var incoming = GetInOrOutTransactionsSummary(transactions, TransactionTypes.Incoming);
             var outgoing = GetInOrOutTransactionsSummary(transactions, TransactionTypes.Outgoing);
             var totalQuantity = previousBalance.Quantity + incoming.Quantity - outgoing.Quantity;
-            var totalAmount = previousBalance.Amount + incoming.Amount - outgoing.Amount;
-            var averageUnitPrice = TruncateUnitPrice(totalQuantity > 0 ? totalAmount / totalQuantity : 0, 4);
+            var totalAmount = TruncateValue(previousBalance.Amount + incoming.Amount - outgoing.Amount, 2);
+            var averageUnitPrice = TruncateValue(totalQuantity > 0 ? totalAmount / totalQuantity : 0, 4);
 
             Balance = new Balance(totalQuantity, totalAmount, averageUnitPrice);
         }
         else
             Balance = previousBalance;
+
+        _validator.ValidateAndThrow(this);
     }
 
     private Balance GetInOrOutTransactionsSummary(IList<Transaction> transactions, TransactionTypes type) =>
         transactions
-            .Where(x => x.Type == type && x.Item == Item && x.CreatedAtOnUtc.Date == Date)
+            .Where(x => x.Type == type && x.Item == Item && x.InventoriedAtUtc == Date)
             .Select(x => new { x.Item, x.Quantity, x.Amount })
             .GroupBy(x => x.Item, x => x, (k, g) =>
                 new Balance(g.Sum(x => x.Quantity), g.Sum(x => x.Amount)
                 ))
             .FirstOrDefault();
 
-    private decimal TruncateUnitPrice(decimal value, int precision)
+    private decimal TruncateValue(decimal value, int precision)
     {
         var factor = int.Parse($"1{new String('0', precision)}");
         return Math.Truncate(factor * value) / factor;
