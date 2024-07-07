@@ -36,12 +36,12 @@ INDEX (item_id, inventory_date)
 );
 
 CREATE TABLE IF NOT EXISTS ${DB_NAME}.application_logs (
-id BINARY(16) PRIMARY KEY,
+Id INT AUTO_INCREMENT,
 Timestamp DATETIME NOT NULL,
 Level VARCHAR(20) NOT NULL,
 Message TEXT NOT NULL,
 Source VARCHAR(2000) NOT NULL,
 Exception TEXT,
 Request TEXT,
-ResponseStatus TEXT
+ProblemDetails TEXT
 );

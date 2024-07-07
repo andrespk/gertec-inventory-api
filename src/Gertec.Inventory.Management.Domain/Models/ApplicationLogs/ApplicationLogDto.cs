@@ -1,7 +1,7 @@
 namespace Gertec.Inventory.Management.Domain.Models.ApplicationLogs;
 
 public record ApplicationLogDto(
-    Guid Id,
+    int Id,
     string Source,
     DateTime Timestamp,
     string Message,

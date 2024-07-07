@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gertec.Inventory.Management.Domain.Entities;
 
 [Table(DbKind.MySql, "application_logs")]
-public class ApplicationLog : DefaultEntityBase
+public class ApplicationLog : EntityBase<int>
 {
     public ApplicationLog(string source, string message, string level)
     {
