@@ -7,19 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Mapster" Version="7.4.1-pre01"/>
+        <PackageReference Include="Mapster" Version="7.4.0" />
         <PackageReference Include="MediatR" Version="12.3.0"/>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Gertec.Inventory.Management.Domain\Gertec.Inventory.Management.Domain.csproj" />
       <ProjectReference Include="..\Gertec.Inventory.Management.Infrastructure\Gertec.Inventory.Management.Infrastructure.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="FluentValidation">
-        <HintPath>..\..\..\..\..\.nuget\packages\fluentvalidation\11.9.2\lib\net8.0\FluentValidation.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
     <ItemGroup>

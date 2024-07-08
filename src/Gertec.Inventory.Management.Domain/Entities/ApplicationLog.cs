@@ -3,7 +3,6 @@ using DeclarativeSql;
 using DeclarativeSql.Annotations;
 using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Common.Primitives;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Gertec.Inventory.Management.Domain.Entities;
 
