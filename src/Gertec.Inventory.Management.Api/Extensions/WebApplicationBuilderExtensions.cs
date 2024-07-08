@@ -1,10 +1,12 @@
 using System.Reflection;
+using Asp.Versioning;
 using Dapper.FluentMap;
 using Dapper.FluentMap.Dommel;
 using Gertec.Inventory.Management.Api.Resources;
 using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Repositories;
 using Gertec.Inventory.Management.Infrastructure.Data;
+using Gertec.Inventory.Management.Infrastructure.Data.Abstractions;
 using Gertec.Inventory.Management.Infrastructure.Data.Mappers;
 using Gertec.Inventory.Management.Infrastructure.Data.Repositories;
 using Gertec.Inventory.Management.Infrastructure.Logging;
@@ -14,28 +16,38 @@ namespace Gertec.Inventory.Management.Api.Extensions;
 
 public static class WebApplicationBuilderExtensions
 {
-    private const string DbConnectionstringConfigName = "DEFAULT_CONNECTION";
-
     public static void AddInfrastructure(this WebApplicationBuilder builder)
-    {
-        builder.AddServices();
-    }
-
-    private static void AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-        builder.RegisterDatabaseAndRepositoriesServices();
+        builder.Services.AddApiVersioningAndEndpoints();
+        builder.Services.AddDbCapabilitiesAndRepositories();
+        builder.Services.AddLogging();
     }
 
-    private static void RegisterDatabaseAndRepositoriesServices(this WebApplicationBuilder builder)
+    private static void AddLogging(this IServiceCollection services)
     {
-        var connectionString = builder.Configuration.GetConnectionString(DbConnectionstringConfigName);
+        services.AddTransient<ILogService, LogService>();
+    }
 
-        if (connectionString is null)
-            throw new ArgumentException(ConfigurationMessages.MissingConfiguration, DbConnectionstringConfigName);
+    private static void AddApiVersioningAndEndpoints(this IServiceCollection services)
+    {
+        services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1);
+            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        }).AddApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'V";
+            options.SubstituteApiVersionInUrl = true;
+        });
 
+        services.AddEndpoints(typeof(Program).Assembly);
+    }
+
+    private static void AddDbCapabilitiesAndRepositories(this IServiceCollection services)
+    {
         FluentMapper.Initialize(config =>
         {
             config.AddMap(new ItemMap());
@@ -45,10 +57,10 @@ public static class WebApplicationBuilderExtensions
             config.ForDommel();
         });
 
-        builder.Services.AddScoped<IDbContext, DbContext>(provider => new DbContext(connectionString));
-        builder.Services.AddScoped<IItemRepository, ItemRepository>();
-        builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-        builder.Services.AddScoped<IDailyInventoryRepository, DailyInventoryRepository>();
-        builder.Services.AddScoped<IApplicationLogRepository, ApplicationLogRepository>();
+        services.AddScoped<IDbSession, DbSession>();
+        services.AddTransient<IItemRepository, ItemRepository>();
+        services.AddTransient<ITransactionRepository, TransactionRepository>();
+        services.AddTransient<IDailyInventoryRepository, DailyInventoryRepository>();
+        services.AddTransient<IApplicationLogRepository, ApplicationLogRepository>();
     }
 }

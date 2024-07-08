@@ -101,7 +101,7 @@ public class DailyInventoryRepository : DefaultRepository, IDailyInventoryReposi
     
     private async Task AddTransactionsAsync(DailyInventory entity, CancellationToken token)
     {
-        var transactionsToAdd = entity.Transactions.Adapt<IEnumerable<AddTransactionDto>>();
-        await _transactionRepository.AddManyAsync(transactionsToAdd, token);
+        var transactions = entity.Transactions.Adapt<IEnumerable<AddTransactionDto>>();
+        await _transactionRepository.AddManyAsync(transactions, token);
     }
 }
