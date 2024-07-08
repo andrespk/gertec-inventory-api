@@ -13,13 +13,16 @@
         <PackageReference Include="Asp.Versioning.OData.ApiExplorer" Version="8.1.0" />
         <PackageReference Include="Dapper.FluentMap" Version="2.0.0"/>
         <PackageReference Include="Dapper.FluentMap.Dommel" Version="2.0.0"/>
+        <PackageReference Include="FastEndpoints.MediatR" Version="2.0.3" />
         <PackageReference Include="MediatR" Version="12.3.0"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.5"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Rest\"/>
+        <Folder Include="Rest\Endpoints\DailyInventory\" />
+        <Folder Include="Rest\Endpoints\Items\" />
+        <Folder Include="Rest\Endpoints\Transactions\" />
     </ItemGroup>
 
     <ItemGroup>

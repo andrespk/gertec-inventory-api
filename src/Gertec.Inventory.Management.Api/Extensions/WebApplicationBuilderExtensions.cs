@@ -7,43 +7,49 @@ using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Repositories;
 using Gertec.Inventory.Management.Infrastructure.Data;
 using Gertec.Inventory.Management.Infrastructure.Data.Abstractions;
+using Gertec.Inventory.Management.Infrastructure.Data.Helpers;
 using Gertec.Inventory.Management.Infrastructure.Data.Mappers;
 using Gertec.Inventory.Management.Infrastructure.Data.Repositories;
 using Gertec.Inventory.Management.Infrastructure.Logging;
 using Gertec.Inventory.Management.Infrastructure.Logging.Abstractions;
+using Serilog;
 
 namespace Gertec.Inventory.Management.Api.Extensions;
 
 public static class WebApplicationBuilderExtensions
 {
-    public static void AddInfrastructure(this WebApplicationBuilder builder)
+    public static void AddInfrastructure(this WebApplicationBuilder builder, ApiVersion apiVersion)
     {
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-        builder.Services.AddApiVersioningAndEndpoints();
+        builder.Services.AddApiVersioningAndEndpoints(apiVersion, builder.Configuration);
+        builder.Services.AddLogging(builder.Configuration);
+        builder.Services.AddEndpoints(typeof(Program).Assembly);
         builder.Services.AddDbCapabilitiesAndRepositories();
-        builder.Services.AddLogging();
     }
 
-    private static void AddLogging(this IServiceCollection services)
+    private static void AddLogging(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<ILogService, LogService>();
+        var connectionString = configuration.GetValue<string>(DataHelper.DefaultConnectionConfigName);
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.MySQL(connectionString, DataHelper.LogTableName, storeTimestampInUtc: true)
+            .CreateLogger();
     }
 
-    private static void AddApiVersioningAndEndpoints(this IServiceCollection services)
+    private static void AddApiVersioningAndEndpoints(this IServiceCollection services, ApiVersion apiVersion, IConfiguration configuration)
     {
         services.AddApiVersioning(options =>
         {
-            options.DefaultApiVersion = new ApiVersion(1);
+            options.DefaultApiVersion = apiVersion;
             options.ApiVersionReader = new UrlSegmentApiVersionReader();
         }).AddApiExplorer(options =>
         {
-            options.GroupNameFormat = "'v'V";
+            options.GroupNameFormat =
+                configuration.GetValue<string>(ApiConstants.VersioningGroupNameFormatConfigName) ?? "'v'V";
             options.SubstituteApiVersionInUrl = true;
         });
-
-        services.AddEndpoints(typeof(Program).Assembly);
     }
 
     private static void AddDbCapabilitiesAndRepositories(this IServiceCollection services)

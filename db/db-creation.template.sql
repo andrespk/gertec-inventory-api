@@ -42,6 +42,5 @@ Level VARCHAR(20) NOT NULL,
 Message TEXT NOT NULL,
 Source VARCHAR(2000) NOT NULL,
 Exception TEXT,
-Request TEXT,
-ProblemDetails TEXT
+Request TEXT
 );
