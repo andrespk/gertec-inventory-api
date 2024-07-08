@@ -6,15 +6,13 @@ using Gertec.Inventory.Management.Domain.ValueObjects;
 
 namespace Gertec.Inventory.Management.Domain.Repositories;
 
-public interface IDailyInventoryRepository : IReadOperations<DailyInventory, Guid, DailyInventoryDto>
+public interface IDailyInventoryRepository : IReadOperations<DailyInventory, Guid, DailyInventoryDto> 
 {
-    Task<Balance> GetInitialBalanceAsync(DateTime inventoryDate, Guid itemId, CancellationToken? cancellationToken);
+    Task<Balance> GetInitialBalanceAsync(DateTime inventoryDate, Guid itemId, CancellationToken cancellationToken);
     
-    Task<DailyInventoryDto?> GetByItemIdAndDateAsync(Guid itemId, DateTime date, CancellationToken? cancellationToken);
+    Task<DailyInventoryDto?> GetByItemIdAndDateAsync(Guid itemId, DateTime date, CancellationToken cancellationToken);
 
-    Task IncreaseAsync(IncreaseDailyInventoryDto model, CancellationToken? cancellationToken,
-        IDbTransaction? transaction);
+    Task IncreaseAsync(IncreaseDailyInventoryDto model, CancellationToken cancellationToken);
 
-    Task DecreaseAsync(DecreaseDailyInventoryDto model, CancellationToken? cancellationToken,
-        IDbTransaction? transaction);
+    Task DecreaseAsync(DecreaseDailyInventoryDto model, CancellationToken cancellationToken);
 }

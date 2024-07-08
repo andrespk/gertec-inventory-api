@@ -107,5 +107,11 @@ namespace Gertec.Inventory.Management.Domain.Common.Resources {
                 return ResourceManager.GetString("UnitPriceMismatch", resourceCulture);
             }
         }
+        
+        public static string InvalidConnection {
+            get {
+                return ResourceManager.GetString("InvalidConnection", resourceCulture);
+            }
+        }
     }
 }

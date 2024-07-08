@@ -4,8 +4,6 @@ namespace Gertec.Inventory.Management.Domain.Abstractions;
 
 public interface ICreateOperations<in TModel>
 {
-    Task AdOneAsync(TModel model, IDbTransaction? transaction = default, CancellationToken? cancellationToken = default);
-
-    Task AddManyAsync(IEnumerable<TModel> model, IDbTransaction? transaction = default,
-        CancellationToken? cancellationToken = default);
+    Task AdOneAsync(TModel model, CancellationToken cancellationToken);
+    Task AddManyAsync(IEnumerable<TModel> model, CancellationToken cancellationToken);
 }

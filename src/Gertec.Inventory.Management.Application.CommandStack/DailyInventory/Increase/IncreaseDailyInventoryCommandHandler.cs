@@ -1,22 +1,34 @@
 using FluentValidation;
+using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Models.DailyInventory;
 using Gertec.Inventory.Management.Domain.Repositories;
+using Mapster;
 using MediatR;
 
 namespace Gertec.Inventory.Management.Application.CommandStack.DailyInventory.Increase;
 
-public class IncreaseDailyInventoryCommandHandler : IRequestHandler<IncreaseDailyInventoryCommand, DailyInventoryDto>
+public class IncreaseDailyInventoryCommandHandler(IDbContext dbContext, IDailyInventoryRepository repository)
+    : IRequestHandler<IncreaseDailyInventoryCommand, DailyInventoryDto?>
 {
-    private readonly IDailyInventoryRepository _repository;
     private readonly IncreaseDailyInventoryCommandValidator _validator = new ();
 
-    public IncreaseDailyInventoryCommandHandler(IDailyInventoryRepository repository)
+    public async Task<DailyInventoryDto?> Handle(IncreaseDailyInventoryCommand request, CancellationToken cancellationToken)
     {
-        _repository = repository;
-    }
-    public async Task<DailyInventoryDto> Handle(IncreaseDailyInventoryCommand request, CancellationToken cancellationToken)
-    {
-        await _validator.ValidateAndThrowAsync(request);
-        await _repository.
+        await _validator.ValidateAndThrowAsync(request, cancellationToken);
+
+        var connection = dbContext.GetConnection();
+        connection.Open();
+        
+        repository.SetConnection(connection);
+        
+        var transaction = connection.BeginTransaction();
+
+        using (transaction)
+        {
+            await repository.IncreaseAsync(request.Adapt<IncreaseDailyInventoryDto>(), cancellationToken, transaction);
+            transaction.Commit();
+        }
+
+        return await repository.GetByItemIdAndDateAsync(request.ItemId, request.Date, cancellationToken);
     }
 }

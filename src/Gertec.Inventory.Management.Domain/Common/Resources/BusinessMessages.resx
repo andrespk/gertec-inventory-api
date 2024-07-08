@@ -53,4 +53,7 @@
     <data name="UnitPriceMismatch" xml:space="preserve">
         <value>The Unit Price is invalid. Please check amount &amp; quantity.</value>
     </data>
+    <data name="InvalidConnection" xml:space="preserve">
+        <value>The Connection State is iinvalid.</value>
+    </data>
 </root>

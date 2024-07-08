@@ -4,17 +4,11 @@ using MySql.Data.MySqlClient;
 
 namespace Gertec.Inventory.Management.Infrastructure.Data;
 
-public class DbContext : IDbContext
+public sealed class DbContext : IDbContext
 {
     private readonly string _connectionString;
 
-    public DbContext(string connectionString)
-    {
-        _connectionString = connectionString;
-    }
+    public DbContext(string connectionString) => _connectionString = connectionString;
 
-    public IDbConnection GetConnection()
-    {
-        return new MySqlConnection(_connectionString);
-    }
+    public IDbConnection GetConnection() => new MySqlConnection(_connectionString);
 }
