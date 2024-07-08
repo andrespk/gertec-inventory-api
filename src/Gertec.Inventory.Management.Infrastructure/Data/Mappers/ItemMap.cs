@@ -10,7 +10,6 @@ public class ItemMap : DommelEntityMap<Item>
     public ItemMap()
     {
         ToTable("items");
-        Map(item => item.Id).IsKey();
-        Map(item => item.PartNumber).ToColumn("part_no");
+        Map(x => x.PartNumber).ToColumn("part_no");
     }
 }

@@ -24,17 +24,10 @@ public class ApplicationLog : EntityBase<int>
         Exception = JsonSerializer.Serialize(exception);
     }
 
-    public ApplicationLog(string source, string message, string level, RequestDetails requestDetails,
-        ProblemDetails problemDetails) : this(source, message, level)
-    {
-        ProblemDetails = JsonSerializer.Serialize(problemDetails);
-    }
-
     public string Message { get; init; }
     public string Level { get; init; }
     public DateTime Timestamp { get; init; } = DateTime.UtcNow;
     public string Source { get; init; }
     public string? Exception { get; init; }
-    public string? ProblemDetails { get; init; }
     public string? Request { get; init; }
 }

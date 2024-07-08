@@ -31,7 +31,7 @@ public static class WebApplicationBuilderExtensions
 
     private static void AddLogging(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetValue<string>(DataHelper.DefaultConnectionConfigName);
+        var connectionString = configuration.GetConnectionString(DataHelper.DefaultConnectionConfigName);
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Console()
             .WriteTo.MySQL(connectionString, DataHelper.LogTableName, storeTimestampInUtc: true)

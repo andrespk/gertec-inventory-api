@@ -10,11 +10,10 @@ public class TransactionMap : DommelEntityMap<Transaction>
     public TransactionMap()
     {
         ToTable("items_transactions");
-        Map(item => item.Id).IsKey();
-        Map(item => item.Id).ToColumn("item_id");
-        Map(item => item.Type).ToColumn("transaction_type");
-        Map(item => item.UnitPrice).ToColumn("unit_price");
-        Map(item => item.InventoriedAtUtc).ToColumn("inventory_date");
-        Map(item => item.CreatedAtUtc).ToColumn("transaction_date");
+        Map(x => x.Item.Id).ToColumn("item_id");
+        Map(x => x.Type).ToColumn("transaction_type");
+        Map(x => x.UnitPrice).ToColumn("unit_price");
+        Map(x => x.InventoriedAtUtc).ToColumn("inventory_date");
+        Map(x => x.CreatedAtUtc).ToColumn("transaction_date");
     }
 }
