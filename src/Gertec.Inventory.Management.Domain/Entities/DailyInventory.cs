@@ -37,7 +37,7 @@ public class DailyInventory : DefaultEntityBase
     public IList<Transaction> Transactions { get; private set; } = new List<Transaction>();
     public Balance Balance { get; private set; }
 
-    public void IncreaseInventory(IList<Balance> inputs)
+    public void Increase(IList<Balance> inputs)
     {
         var transactions = inputs?.Select(x =>
                 new Transaction(Item, Date, DateTime.UtcNow, TransactionTypes.Incoming, x.Quantity, x.Amount,
@@ -46,12 +46,24 @@ public class DailyInventory : DefaultEntityBase
         UpdateInventory(transactions);
     }
 
-    public void DecreaseInventory(decimal quantity)
+    public void Increase(Balance input)
     {
-        var transactions = new List<Transaction>();
+        var transactions = new List<Transaction>()
+        {
+            new (Item, Date, DateTime.UtcNow, TransactionTypes.Incoming, input.Quantity, input.Amount,
+                input.UnitPrice)
+        };
+        UpdateInventory(transactions);
+    }
+
+    public void Decrease(decimal quantity)
+    {
         var amount = quantity * Balance.UnitPrice;
-        transactions.Add(new Transaction(Item, Date, DateTime.UtcNow, TransactionTypes.Outgoing, quantity, amount,
-            Balance.UnitPrice));
+        var transactions = new List<Transaction>()
+        {
+            new (Item, Date, DateTime.UtcNow, TransactionTypes.Outgoing, quantity, amount,
+                Balance.UnitPrice)
+        };
         UpdateInventory(transactions);
     }
 

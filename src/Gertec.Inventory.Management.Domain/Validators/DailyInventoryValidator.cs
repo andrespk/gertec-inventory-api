@@ -10,19 +10,24 @@ public class DailyInventoryValidator : ValidatorBase<DailyInventory>
 {
     public DailyInventoryValidator()
     {
-        RuleFor(x => x.Item).SetValidator(new ItemValidator());
+        RuleFor(x => x.Item)
+            .SetValidator(new ItemValidator());
 
-        RuleFor(x => x.Date).NotEmpty().GreaterThanOrEqualTo(DateTime.UtcNow)
+        RuleFor(x => x.Date)
+            .GreaterThanOrEqualTo(DateTime.UtcNow)
             .WithMessage(BusinessMessages.InvalidDate);
 
-        RuleFor(x => x.Balance.Quantity).GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumQuantity)
+        RuleFor(x => x.Balance.Quantity)
+            .GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumQuantity)
             .WithMessage(
                 FormatMessage(BusinessMessages.InvalidQuantity, InventoryConstants.ItemDefaultMinimumQuantity));
 
-        RuleFor(x => x.Balance.Amount).GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumAmount)
+        RuleFor(x => x.Balance.Amount)
+            .GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumAmount)
             .WithMessage(FormatMessage(BusinessMessages.InvalidAmount, InventoryConstants.ItemDefaultMinimumAmount));
 
-        RuleFor(x => x.Balance.UnitPrice).GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumUnitPrice)
+        RuleFor(x => x.Balance.UnitPrice)
+            .GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumUnitPrice)
             .WithMessage(FormatMessage(BusinessMessages.InvalidUnitPrice,
                 InventoryConstants.ItemDefaultMinimumUnitPrice));
     }

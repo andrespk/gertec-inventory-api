@@ -16,7 +16,7 @@ public class LogService : ILogService
     {
         _configuration = configuration;
 
-        var connectionString = _configuration.GetConnectionString(DbHelper.DefaultConnectionConfigName);
+        var connectionString = _configuration.GetConnectionString(DataHelper.DefaultConnectionConfigName);
 
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Console()

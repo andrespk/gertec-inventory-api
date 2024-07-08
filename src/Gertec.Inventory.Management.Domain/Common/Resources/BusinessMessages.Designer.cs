@@ -11,18 +11,18 @@ namespace Gertec.Inventory.Management.Domain.Common.Resources {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class BusinessMessages {
+    public class BusinessMessages {
         
         private static System.Resources.ResourceManager resourceMan;
         
         private static System.Globalization.CultureInfo resourceCulture;
         
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal BusinessMessages() {
+        public BusinessMessages() {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static System.Resources.ResourceManager ResourceManager {
+        public static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
                     System.Resources.ResourceManager temp = new System.Resources.ResourceManager("Gertec.Inventory.Management.Domain.Resources.InventoryMessages", typeof(BusinessMessages).Assembly);
@@ -33,7 +33,7 @@ namespace Gertec.Inventory.Management.Domain.Common.Resources {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static System.Globalization.CultureInfo Culture {
+        public static System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -42,63 +42,69 @@ namespace Gertec.Inventory.Management.Domain.Common.Resources {
             }
         }
         
-        internal static string OutOfStock {
+        public static string OutOfStock {
             get {
                 return ResourceManager.GetString("OutOfStock", resourceCulture);
             }
         }
         
-        internal static string ItemNotFound {
+        public static string ItemNotFound {
             get {
                 return ResourceManager.GetString("ItemNotFound", resourceCulture);
             }
         }
         
-        internal static string InvalidItemPartNumber {
+        public static string InvalidItemPartNumber {
             get {
                 return ResourceManager.GetString("InvalidItemPartNumber", resourceCulture);
             }
         }
         
-        internal static string InvalidItemDescriptionMaxLength {
+        public static string InvalidItemDescriptionMaxLength {
             get {
                 return ResourceManager.GetString("InvalidItemDescriptionMaxLength", resourceCulture);
             }
         }
         
-        internal static string InvalidItemDescriptionMinLength {
+        public static string InvalidItemDescriptionMinLength {
             get {
                 return ResourceManager.GetString("InvalidItemDescriptionMinLength", resourceCulture);
             }
         }
         
-        internal static string InvalidDate {
+        public static string InvalidDate {
             get {
                 return ResourceManager.GetString("InvalidDate", resourceCulture);
             }
         }
         
-        internal static string InvalidTransactionType {
+        public static string InvalidTransactionType {
             get {
                 return ResourceManager.GetString("InvalidTransactionType", resourceCulture);
             }
         }
         
-        internal static string InvalidQuantity {
+        public static string InvalidQuantity {
             get {
                 return ResourceManager.GetString("InvalidQuantity", resourceCulture);
             }
         }
         
-        internal static string InvalidAmount {
+        public static string InvalidAmount {
             get {
                 return ResourceManager.GetString("InvalidAmount", resourceCulture);
             }
         }
         
-        internal static string InvalidUnitPrice {
+        public static string InvalidUnitPrice {
             get {
                 return ResourceManager.GetString("InvalidUnitPrice", resourceCulture);
+            }
+        }
+        
+        public static string UnitPriceMismatch {
+            get {
+                return ResourceManager.GetString("UnitPriceMismatch", resourceCulture);
             }
         }
     }

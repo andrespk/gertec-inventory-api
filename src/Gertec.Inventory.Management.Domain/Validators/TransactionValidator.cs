@@ -10,21 +10,28 @@ public class TransactionValidator : ValidatorBase<Transaction>
 {
     public TransactionValidator()
     {
-        RuleFor(x => x.Item).SetValidator(new ItemValidator());
+        RuleFor(x => x.Item)
+            .SetValidator(new ItemValidator());
 
-        RuleFor(x => x.Type).NotEmpty().WithMessage(BusinessMessages.InvalidTransactionType);
+        RuleFor(x => x.Type)
+            .NotEmpty()
+            .WithMessage(BusinessMessages.InvalidTransactionType);
 
-        RuleFor(x => x.InventoriedAtUtc).NotEmpty().GreaterThanOrEqualTo(DateTime.UtcNow)
+        RuleFor(x => x.InventoriedAtUtc)
+            .GreaterThanOrEqualTo(DateTime.UtcNow)
             .WithMessage(BusinessMessages.InvalidDate);
 
-        RuleFor(x => x.Quantity).GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumQuantity)
+        RuleFor(x => x.Quantity)
+            .GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumQuantity)
             .WithMessage(
                 FormatMessage(BusinessMessages.InvalidQuantity, InventoryConstants.ItemDefaultMinimumQuantity));
 
-        RuleFor(x => x.Amount).GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumAmount)
+        RuleFor(x => x.Amount)
+            .GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumAmount)
             .WithMessage(FormatMessage(BusinessMessages.InvalidAmount, InventoryConstants.ItemDefaultMinimumAmount));
 
-        RuleFor(x => x.UnitPrice).GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumUnitPrice)
+        RuleFor(x => x.UnitPrice)
+            .GreaterThanOrEqualTo(InventoryConstants.ItemDefaultMinimumUnitPrice)
             .WithMessage(FormatMessage(BusinessMessages.InvalidUnitPrice,
                 InventoryConstants.ItemDefaultMinimumUnitPrice));
     }

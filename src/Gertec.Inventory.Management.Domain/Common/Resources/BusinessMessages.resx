@@ -24,10 +24,10 @@
         </value>
     </resheader>
     <data name="OutOfStock" xml:space="preserve">
-        <value>The Part Number {0} is out of stock.</value>
+        <value>Item '{0}' out of stock.</value>
     </data>
     <data name="ItemNotFound" xml:space="preserve">
-        <value>The Part Number {0} is not found.</value>
+        <value>Item not found.</value>
     </data>
     <data name="InvalidItemPartNumber" xml:space="preserve">
         <value>A Part Number with {0} character(s) is required.</value>
@@ -39,10 +39,7 @@
         <value>A Description with {0} minimum character(s) is required.</value>
     </data>
     <data name="InvalidDate" xml:space="preserve">
-        <value>The Date is required and it also must be until today.</value>
-    </data>
-    <data name="InvalidTransactionType" xml:space="preserve">
-        <value>The Transaction Type is required.</value>
+        <value>The Date is required and it also must be until now.</value>
     </data>
     <data name="InvalidQuantity" xml:space="preserve">
         <value>The Quantity must be greater than or equals to {0}.</value>
@@ -52,5 +49,8 @@
     </data>
     <data name="InvalidUnitPrice" xml:space="preserve">
         <value>The Unit Price must be greater than or equals to {0}.</value>
+    </data>
+    <data name="UnitPriceMismatch" xml:space="preserve">
+        <value>The Unit Price is invalid. Please check amount &amp; quantity.</value>
     </data>
 </root>
