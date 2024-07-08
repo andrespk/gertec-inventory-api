@@ -1,8 +1,7 @@
 using System.Data;
 using Gertec.Inventory.Management.Domain.Common.Resources;
-using Gertec.Inventory.Management.Infrastructure.Data.Abstractions;
 
-namespace Gertec.Inventory.Management.Domain.Abstractions;
+namespace Gertec.Inventory.Management.Infrastructure.Data.Abstractions;
 
 public abstract class DefaultRepository : IDisposable
 {

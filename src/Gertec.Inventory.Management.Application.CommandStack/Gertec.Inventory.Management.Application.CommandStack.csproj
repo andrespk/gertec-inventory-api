@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Gertec.Inventory.Management.Domain\Gertec.Inventory.Management.Domain.csproj" />
+      <ProjectReference Include="..\Gertec.Inventory.Management.Infrastructure\Gertec.Inventory.Management.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

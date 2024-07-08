@@ -1,11 +1,10 @@
-using System.Data;
 using System.Linq.Expressions;
 using DapperQueryBuilder;
 using DeclarativeSql;
-using Gertec.Inventory.Management.Domain.Abstractions;
 using Gertec.Inventory.Management.Domain.Constants;
 using Gertec.Inventory.Management.Domain.Entities;
 using Gertec.Inventory.Management.Domain.Models.DailyInventory;
+using Gertec.Inventory.Management.Domain.Models.Transactions;
 using Gertec.Inventory.Management.Domain.Repositories;
 using Gertec.Inventory.Management.Domain.ValueObjects;
 using Gertec.Inventory.Management.Infrastructure.Data.Abstractions;
@@ -14,17 +13,19 @@ using Mapster;
 namespace Gertec.Inventory.Management.Infrastructure.Data.Repositories;
 
 public class DailyInventoryRepository : DefaultRepository, IDailyInventoryRepository
-{
+{ 
     private readonly IDbSession _dbSession;
-    public DailyInventoryRepository(IDbSession dbSession) : base(dbSession)
+    private readonly ITransactionRepository _transactionRepository;
+    public DailyInventoryRepository(IDbSession dbSession, ITransactionRepository transactionRepository) : base(dbSession)
     {
         _dbSession = dbSession;
+        _transactionRepository = transactionRepository;
     }
 
     public async Task<DailyInventoryDto?> GetOneAsync(Expression<Func<DailyInventory, bool>> predicate,
         CancellationToken cancellationToken)
     {
-        return (await Connection.SelectAsync(predicate,
+        return (await _dbSession.Connection.SelectAsync(predicate,
                 cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken)))?
             .FirstOrDefault()?
             .Adapt<DailyInventoryDto>();
@@ -33,7 +34,7 @@ public class DailyInventoryRepository : DefaultRepository, IDailyInventoryReposi
     public async Task<IEnumerable<DailyInventoryDto>> GetManyAsync(Expression<Func<DailyInventory, bool>>? predicate,
         CancellationToken cancellationToken)
     {
-        return (await Connection.SelectAsync(predicate,
+        return (await _dbSession.Connection.SelectAsync(predicate,
                 cancellationToken: ResolveAndConfigureCancellationToken(cancellationToken)))?
             .Adapt<IEnumerable<DailyInventoryDto>>();
     }
@@ -43,7 +44,7 @@ public class DailyInventoryRepository : DefaultRepository, IDailyInventoryReposi
     {
         var initialBalance = new Balance(InventoryConstants.ItemDefaultMinimumQuantity,
             InventoryConstants.ItemDefaultMinimumAmount);
-        var previousInventoryDate = Connection.QueryBuilder(@$"SELECT MAX(inventory_date) FROM items_daily_inventory
+        var previousInventoryDate = _dbSession.Connection.QueryBuilder(@$"SELECT MAX(inventory_date) FROM items_daily_inventory
                                     WHERE item_id = {itemId} AND inventory_date < {inventoryDate}")
             .QueryFirstOrDefault<DateTime?>();
 
@@ -64,7 +65,7 @@ public class DailyInventoryRepository : DefaultRepository, IDailyInventoryReposi
     public async Task IncreaseAsync(IncreaseDailyInventoryDto model, CancellationToken cancellationToken)
     {
         var token = ResolveAndConfigureCancellationToken(cancellationToken);
-        var connection = _dbSession.Transaction?.Connection ?? Connection;
+        var connection = _dbSession.Transaction?.Connection ?? _dbSession.Connection;
         var existing = await GetByItemIdAndDateAsync(model.ItemId, model.Date, token);
 
         var entity = model.Adapt<DailyInventory>();
@@ -75,6 +76,8 @@ public class DailyInventoryRepository : DefaultRepository, IDailyInventoryReposi
                 cancellationToken: token);
         else
             await connection.InsertAsync(entity, cancellationToken: token);
+
+        await AddTransactionsAsync(entity, token);
     }
 
     public async Task DecreaseAsync(DecreaseDailyInventoryDto model, CancellationToken cancellationToken)
@@ -84,13 +87,21 @@ public class DailyInventoryRepository : DefaultRepository, IDailyInventoryReposi
 
         if (existing is not null)
         {
-            var connection = _dbSession.Transaction?.Connection ?? Connection;
+            var connection = _dbSession.Transaction?.Connection ?? _dbSession.Connection;
            
             var entity = model.Adapt<DailyInventory>();
             entity.Decrease(model.Quantity);
             
             await connection.UpdateAsync(entity, x => x.Item == entity.Item && x.Date == entity.Date,
                 cancellationToken: token);
+
+            await AddTransactionsAsync(entity, token);
         }
+    }
+    
+    private async Task AddTransactionsAsync(DailyInventory entity, CancellationToken token)
+    {
+        var transactionsToAdd = entity.Transactions.Adapt<IEnumerable<AddTransactionDto>>();
+        await _transactionRepository.AddManyAsync(transactionsToAdd, token);
     }
 }
